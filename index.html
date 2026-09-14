@@ -1,41 +1,49 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fr" dir="ltr">
+
 <head>
-    <link rel="icon" type="image/png" href="favicon.png">
-    <title>خدمتي DZ 🇩🇿 | منصة الخدمات في الجزائر</title>
-
-<meta
-    name="description"
-    content="خدمتي DZ هي منصة جزائرية تربط الزبائن بالحرفيين ومقدمي الخدمات بسهولة. اطلب خدمة، احصل على عروض الأسعار وتواصل مع الحرفي."
->
-
-<meta
-    name="keywords"
-    content="خدمتي DZ, خدمات الجزائر, حرفيين الجزائر, خدمات في الجزائر, حرفي, طلب خدمة"
->
-
-<meta name="robots" content="index, follow">
-    <meta name="google-site-verification" content="Zj0uxlomfyaE99SYZcB9is7MxeVDh2yNfgK1CEGp0Kk" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>خدمتي DZ 🇩🇿</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <title>Khidmati DZ 🇩🇿 | Plateforme de services en Algérie</title>
+
+    <meta
+        name="description"
+        content="Khidmati DZ est une plateforme algérienne qui met en relation les clients avec les artisans et prestataires de services. Demandez un service, comparez les offres et contactez le prestataire."
+    >
+
+    <meta
+        name="keywords"
+        content="Khidmati DZ, services Algérie, artisans Algérie, prestataires Algérie, demande de service, artisan"
+    >
+
+    <meta name="robots" content="index, follow">
+
+    <meta
+        name="google-site-verification"
+        content="Zj0uxlomfyaE99SYZcB9is7MxeVDh2yNfgK1CEGp0Kk"
+    >
+
+    <!-- SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Khidmati DZ",
+        "alternateName": "خدمتي DZ",
+        "url": "https://fabbou28-lgtm.github.io/khidmati-dz/",
+        "description": "Khidmati DZ est une plateforme algérienne qui met en relation les clients avec les artisans et prestataires de services.",
+        "inLanguage": "fr-DZ"
+    }
+    </script>
 
     <link rel="stylesheet" href="style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "خدمتي DZ",
-  "alternateName": "Khidmati DZ",
-  "url": "https://fabbou28-lgtm.github.io/khidmati-dz/",
-  "description": "خدمتي DZ منصة جزائرية تربط الزبائن بالحرفيين ومقدمي الخدمات.",
-  "inLanguage": "ar-DZ"
-}
-</script>
 </head>
+
 
 <body>
 
@@ -46,7 +54,7 @@
 <header class="header">
 
     <div class="logo">
-        🔧 خدمتي <span>DZ 🇩🇿</span>
+        🔧 Khidmati <span>DZ 🇩🇿</span>
     </div>
 
     <div class="header-actions">
@@ -55,7 +63,7 @@
             id="notificationButton"
             class="notification-button"
             onclick="openNotifications()"
-            title="الإشعارات">
+            title="Notifications">
 
             🔔
 
@@ -72,7 +80,7 @@
             class="account-button"
             onclick="openAccountModal()">
 
-            👤 حسابي
+            👤 Mon compte
 
         </button>
 
@@ -90,14 +98,14 @@
     <div class="hero-content">
 
         <h1>
-            تحتاج حرفي؟
+            Vous cherchez un artisan ?
             <br>
-            <span>خدمتي DZ</span>
-            هنا لمساعدتك 🇩🇿
+            <span>Khidmati DZ</span>
+            est là pour vous aider 🇩🇿
         </h1>
 
         <p>
-            اطلب الخدمة، قارن الأسعار، واختر الحرفي المناسب لك.
+            Demandez un service, comparez les prix et choisissez le prestataire qui vous convient.
         </p>
 
         <div class="hero-buttons">
@@ -106,7 +114,7 @@
                 class="primary-btn"
                 onclick="openRequestModal()">
 
-                ➕ اطلب خدمة
+                ➕ Demander un service
 
             </button>
 
@@ -114,7 +122,7 @@
                 class="secondary-btn"
                 onclick="scrollToWorkers()">
 
-                👨‍🔧 اكتشف الحرفيين
+                👨‍🔧 Découvrir les prestataires
 
             </button>
 
@@ -131,12 +139,13 @@
 
 <section class="search-section">
 
-    <h2>🔎 ماذا تحتاج؟</h2>
+    <h2>🔎 De quoi avez-vous besoin ?</h2>
 
     <input
         type="text"
         id="searchInput"
-        placeholder="ابحث عن كهربائي، سباك، نجار...">
+        placeholder="Rechercher un électricien, plombier, menuisier..."
+    >
 
 </section>
 
@@ -147,7 +156,7 @@
 
 <section class="services-section">
 
-    <h2>الخدمات</h2>
+    <h2>Nos services</h2>
 
     <div class="services-grid">
 
@@ -158,10 +167,10 @@
 
             ⚡
 
-            <h3>كهربائي</h3>
+            <h3>Électricien</h3>
 
             <p>
-                إصلاح وتركيب الكهرباء
+                Installation et réparation électrique
             </p>
 
         </div>
@@ -174,10 +183,10 @@
 
             🚰
 
-            <h3>سباك</h3>
+            <h3>Plombier</h3>
 
             <p>
-                إصلاح المياه والأنابيب
+                Réparation de l'eau et des canalisations
             </p>
 
         </div>
@@ -190,10 +199,10 @@
 
             🧹
 
-            <h3>تنظيف</h3>
+            <h3>Nettoyage</h3>
 
             <p>
-                تنظيف المنازل والمحلات
+                Nettoyage des maisons et des locaux
             </p>
 
         </div>
@@ -206,10 +215,10 @@
 
             📱
 
-            <h3>إصلاح الهواتف</h3>
+            <h3>Réparation de téléphones</h3>
 
             <p>
-                صيانة وإصلاح الهواتف
+                Entretien et réparation des téléphones
             </p>
 
         </div>
@@ -222,10 +231,10 @@
 
             🪚
 
-            <h3>نجار</h3>
+            <h3>Menuisier</h3>
 
             <p>
-                أعمال الخشب والأثاث
+                Travaux de bois et de mobilier
             </p>
 
         </div>
@@ -238,10 +247,10 @@
 
             🎨
 
-            <h3>دهان</h3>
+            <h3>Peintre</h3>
 
             <p>
-                طلاء وتجديد المنازل
+                Peinture et rénovation des maisons
             </p>
 
         </div>
@@ -264,11 +273,11 @@
         <div>
 
             <h2>
-                👨‍🔧 لوحة الحرفي
+                👨‍🔧 Tableau de bord du prestataire
             </h2>
 
             <p>
-                الطلبات المناسبة لك في ولايتك
+                Les demandes correspondant à votre spécialité et à votre wilaya
             </p>
 
         </div>
@@ -277,7 +286,7 @@
             class="small-btn"
             onclick="openMyProfile()">
 
-            👤 ملفي
+            👤 Mon profil
 
         </button>
 
@@ -308,11 +317,11 @@
         <div>
 
             <h2>
-                📋 طلباتي
+                📋 Mes demandes
             </h2>
 
             <p>
-                تابع طلباتك والعروض المقدمة
+                Suivez vos demandes et les offres reçues
             </p>
 
         </div>
@@ -338,11 +347,11 @@
         <div>
 
             <h2>
-                ⭐ حرفيون مميزون
+                ⭐ Prestataires recommandés
             </h2>
 
             <p>
-                ابحث عن الحرفي المناسب حسب الولاية والتخصص
+                Recherchez le prestataire adapté selon la wilaya et la spécialité
             </p>
 
         </div>
@@ -355,14 +364,15 @@
         <div class="filter-box">
 
             <label for="workerWilayaFilter">
-                🏙️ الولاية
+                🏙️ Wilaya
             </label>
 
             <input
                 type="text"
                 id="workerWilayaFilter"
                 list="wilayaList"
-                placeholder="مثال: بجاية">
+                placeholder="Exemple : Sétif"
+            >
 
         </div>
 
@@ -370,41 +380,43 @@
         <div class="filter-box">
 
             <label for="workerSpecialityFilter">
-                🔧 التخصص
+                🔧 Spécialité
             </label>
 
             <select id="workerSpecialityFilter">
 
                 <option value="">
-                    كل التخصصات
+                    Toutes les spécialités
                 </option>
 
+                <!-- Les valeurs restent en arabe pour préserver la compatibilité avec Supabase -->
+
                 <option value="كهربائي">
-                    ⚡ كهربائي
+                    ⚡ Électricien
                 </option>
 
                 <option value="سباك">
-                    🚰 سباك
+                    🚰 Plombier
                 </option>
 
                 <option value="تنظيف">
-                    🧹 تنظيف
+                    🧹 Nettoyage
                 </option>
 
                 <option value="إصلاح الهواتف">
-                    📱 إصلاح الهواتف
+                    📱 Réparation de téléphones
                 </option>
 
                 <option value="نجار">
-                    🪚 نجار
+                    🪚 Menuisier
                 </option>
 
                 <option value="دهان">
-                    🎨 دهان
+                    🎨 Peintre
                 </option>
 
                 <option value="أخرى">
-                    🔧 أخرى
+                    🔧 Autre
                 </option>
 
             </select>
@@ -416,7 +428,7 @@
             class="clear-filter-btn"
             onclick="clearWorkerFilters()">
 
-            ✖ مسح
+            ✖ Effacer
 
         </button>
 
@@ -432,34 +444,34 @@
 
 
 <!-- =====================================================
-     BOTTOM NAV
+     BOTTOM NAVIGATION
 ===================================================== -->
 
 <nav class="bottom-nav">
 
     <button onclick="scrollToTop()">
         🏠
-        <span>الرئيسية</span>
+        <span>Accueil</span>
     </button>
 
     <button onclick="openRequestModal()">
         ➕
-        <span>طلب</span>
+        <span>Demande</span>
     </button>
 
     <button onclick="scrollToWorkers()">
         👨‍🔧
-        <span>الحرفيون</span>
+        <span>Prestataires</span>
     </button>
 
     <button onclick="openNotifications()">
         🔔
-        <span>الإشعارات</span>
+        <span>Notifications</span>
     </button>
 
     <button onclick="openAccountModal()">
         👤
-        <span>حسابي</span>
+        <span>Compte</span>
     </button>
 
 </nav>
@@ -471,63 +483,64 @@
 
 <datalist id="wilayaList">
 
-    <option value="أدرار">
-    <option value="الشلف">
-    <option value="الأغواط">
-    <option value="أم البواقي">
-    <option value="باتنة">
-    <option value="بجاية">
-    <option value="بسكرة">
-    <option value="بشار">
-    <option value="البليدة">
-    <option value="البويرة">
-    <option value="تمنراست">
-    <option value="تبسة">
-    <option value="تلمسان">
-    <option value="تيارت">
-    <option value="تيزي وزو">
-    <option value="الجزائر">
-    <option value="الجلفة">
-    <option value="جيجل">
-    <option value="سطيف">
-    <option value="سعيدة">
-    <option value="سكيكدة">
-    <option value="سيدي بلعباس">
-    <option value="عنابة">
-    <option value="قالمة">
-    <option value="قسنطينة">
-    <option value="المدية">
-    <option value="مستغانم">
-    <option value="المسيلة">
-    <option value="معسكر">
-    <option value="ورقلة">
-    <option value="وهران">
-    <option value="البيض">
-    <option value="إليزي">
-    <option value="برج بوعريريج">
-    <option value="بومرداس">
-    <option value="الطارف">
-    <option value="تندوف">
-    <option value="تيسمسيلت">
-    <option value="الوادي">
-    <option value="خنشلة">
-    <option value="سوق أهراس">
-    <option value="تيبازة">
-    <option value="ميلة">
-    <option value="عين الدفلى">
-    <option value="النعامة">
-    <option value="عين تموشنت">
-    <option value="غليزان">
-    <option value="تميمون">
-    <option value="برج باجي مختار">
-    <option value="أولاد جلال">
-    <option value="بني عباس">
-    <option value="إن صالح">
-    <option value="إن قزام">
-    <option value="تقرت">
-    <option value="جانت">
-    <option value="المغير">
-    <option value="المنيعة">
+    <option value="Adrar">
+    <option value="Chlef">
+    <option value="Laghouat">
+    <option value="Oum El Bouaghi">
+    <option value="Batna">
+    <option value="Béjaïa">
+    <option value="Biskra">
+    <option value="Béchar">
+    <option value="Blida">
+    <option value="Bouira">
+    <option value="Tamanrasset">
+    <option value="Tébessa">
+    <option value="Tlemcen">
+    <option value="Tiaret">
+    <option value="Tizi Ouzou">
+    <option value="Alger">
+    <option value="Djelfa">
+    <option value="Jijel">
+    <option value="Sétif">
+    <option value="Saïda">
+    <option value="Skikda">
+    <option value="Sidi Bel Abbès">
+    <option value="Annaba">
+    <option value="Guelma">
+    <option value="Constantine">
+    <option value="Médéa">
+    <option value="Mostaganem">
+    <option value="M'Sila">
+    <option value="Mascara">
+    <option value="Ouargla">
+    <option value="Oran">
+    <option value="El Bayadh">
+    <option value="Illizi">
+    <option value="Bordj Badji Mokhtar">
+    <option value="Bordj Bou Arréridj">
+    <option value="Boumerdès">
+    <option value="El Tarf">
+    <option value="Tindouf">
+    <option value="Tissemsilt">
+    <option value="El Oued">
+    <option value="Khenchela">
+    <option value="Souk Ahras">
+    <option value="Tipaza">
+    <option value="Mila">
+    <option value="Aïn Defla">
+    <option value="Naâma">
+    <option value="Aïn Témouchent">
+    <option value="Relizane">
+    <option value="Timimoun">
+    <option value="Bordj Badji Mokhtar">
+    <option value="Ouled Djellal">
+    <option value="Béni Abbès">
+    <option value="In Salah">
+    <option value="In Guezzam">
+    <option value="Touggourt">
+    <option value="Djanet">
+    <option value="El Meghaier">
+    <option value="El Meniaa">
 
 </datalist>
 
@@ -551,7 +564,7 @@
         </button>
 
         <h2>
-            👤 الحساب
+            👤 Compte
         </h2>
 
         <div id="accountContent"></div>
@@ -580,7 +593,7 @@
         </button>
 
         <h2>
-            📝 إنشاء حساب
+            📝 Créer un compte
         </h2>
 
 
@@ -589,42 +602,42 @@
             <input
                 type="text"
                 id="registerName"
-                placeholder="الاسم الكامل"
-                required>
-
+                placeholder="Nom complet"
+                required
+            >
 
             <input
                 type="email"
                 id="registerEmail"
-                placeholder="البريد الإلكتروني"
-                required>
-
+                placeholder="Adresse e-mail"
+                required
+            >
 
             <input
                 type="tel"
                 id="registerPhone"
-                placeholder="رقم الهاتف"
-                required>
-
+                placeholder="Numéro de téléphone"
+                required
+            >
 
             <input
                 type="password"
                 id="registerPassword"
-                placeholder="كلمة المرور"
+                placeholder="Mot de passe"
                 minlength="6"
-                required>
-
+                required
+            >
 
             <select
                 id="registerRole"
                 required>
 
                 <option value="customer">
-                    👤 زبون
+                    👤 Client
                 </option>
 
                 <option value="worker">
-                    👨‍🔧 حرفي
+                    👨‍🔧 Prestataire
                 </option>
 
             </select>
@@ -637,35 +650,35 @@
                 <select id="registerSpeciality">
 
                     <option value="">
-                        اختر تخصصك
+                        Choisissez votre spécialité
                     </option>
 
                     <option value="كهربائي">
-                        ⚡ كهربائي
+                        ⚡ Électricien
                     </option>
 
                     <option value="سباك">
-                        🚰 سباك
+                        🚰 Plombier
                     </option>
 
                     <option value="تنظيف">
-                        🧹 تنظيف
+                        🧹 Nettoyage
                     </option>
 
                     <option value="إصلاح الهواتف">
-                        📱 إصلاح الهواتف
+                        📱 Réparation de téléphones
                     </option>
 
                     <option value="نجار">
-                        🪚 نجار
+                        🪚 Menuisier
                     </option>
 
                     <option value="دهان">
-                        🎨 دهان
+                        🎨 Peintre
                     </option>
 
                     <option value="أخرى">
-                        🔧 أخرى
+                        🔧 Autre
                     </option>
 
                 </select>
@@ -675,7 +688,8 @@
                     type="text"
                     id="registerWilaya"
                     list="wilayaList"
-                    placeholder="ولايتك، مثال: بجاية">
+                    placeholder="Votre wilaya, exemple : Sétif"
+                >
 
             </div>
 
@@ -684,7 +698,7 @@
                 type="submit"
                 class="primary-btn full-width">
 
-                إنشاء الحساب
+                Créer mon compte
 
             </button>
 
@@ -693,10 +707,10 @@
 
         <p class="switch-text">
 
-            لديك حساب؟
+            Vous avez déjà un compte ?
 
             <button onclick="switchToLogin()">
-                تسجيل الدخول
+                Se connecter
             </button>
 
         </p>
@@ -725,7 +739,7 @@
         </button>
 
         <h2>
-            🔐 تسجيل الدخول
+            🔐 Connexion
         </h2>
 
 
@@ -734,22 +748,22 @@
             <input
                 type="email"
                 id="loginEmail"
-                placeholder="البريد الإلكتروني"
-                required>
-
+                placeholder="Adresse e-mail"
+                required
+            >
 
             <input
                 type="password"
                 id="loginPassword"
-                placeholder="كلمة المرور"
-                required>
-
+                placeholder="Mot de passe"
+                required
+            >
 
             <button
                 type="submit"
                 class="primary-btn full-width">
 
-                دخول
+                Se connecter
 
             </button>
 
@@ -758,10 +772,10 @@
 
         <p class="switch-text">
 
-            ليس لديك حساب؟
+            Vous n'avez pas encore de compte ?
 
             <button onclick="switchToRegister()">
-                إنشاء حساب
+                Créer un compte
             </button>
 
         </p>
@@ -790,7 +804,7 @@
         </button>
 
         <h2>
-            ➕ طلب خدمة
+            ➕ Demander un service
         </h2>
 
 
@@ -801,35 +815,35 @@
                 required>
 
                 <option value="">
-                    اختر الخدمة
+                    Choisissez un service
                 </option>
 
                 <option value="كهربائي">
-                    ⚡ كهربائي
+                    ⚡ Électricien
                 </option>
 
                 <option value="سباك">
-                    🚰 سباك
+                    🚰 Plombier
                 </option>
 
                 <option value="تنظيف">
-                    🧹 تنظيف
+                    🧹 Nettoyage
                 </option>
 
                 <option value="إصلاح الهواتف">
-                    📱 إصلاح الهواتف
+                    📱 Réparation de téléphones
                 </option>
 
                 <option value="نجار">
-                    🪚 نجار
+                    🪚 Menuisier
                 </option>
 
                 <option value="دهان">
-                    🎨 دهان
+                    🎨 Peintre
                 </option>
 
                 <option value="أخرى">
-                    🔧 أخرى
+                    🔧 Autre
                 </option>
 
             </select>
@@ -837,38 +851,40 @@
 
             <textarea
                 id="requestDescription"
-                placeholder="اشرح ماذا تحتاج بالتفصيل..."
-                required>
-            </textarea>
+                placeholder="Décrivez précisément ce dont vous avez besoin..."
+                required></textarea>
 
 
             <input
                 type="number"
                 id="requestBudget"
-                placeholder="الميزانية المقترحة بالدينار (اختياري)"
-                min="0">
+                placeholder="Budget proposé en dinars (facultatif)"
+                min="0"
+            >
 
 
             <input
                 type="text"
                 id="requestWilaya"
                 list="wilayaList"
-                placeholder="الولاية التي تحتاج فيها الخدمة"
-                required>
+                placeholder="Wilaya où vous avez besoin du service"
+                required
+            >
 
 
             <input
                 type="text"
                 id="requestLocation"
-                placeholder="العنوان أو المنطقة بالتفصيل"
-                required>
+                placeholder="Adresse ou zone détaillée"
+                required
+            >
 
 
             <button
                 type="submit"
                 class="primary-btn full-width">
 
-                نشر الطلب
+                Publier la demande
 
             </button>
 
@@ -898,7 +914,7 @@
         </button>
 
         <h2>
-            💰 تقديم عرض
+            💰 Faire une offre
         </h2>
 
 
@@ -906,28 +922,29 @@
 
             <input
                 type="hidden"
-                id="offerRequestId">
+                id="offerRequestId"
+            >
 
 
             <input
                 type="number"
                 id="offerPrice"
-                placeholder="السعر بالدينار"
+                placeholder="Prix en dinars"
                 min="0"
-                required>
+                required
+            >
 
 
             <textarea
                 id="offerMessage"
-                placeholder="رسالة للزبون (اختياري)">
-            </textarea>
+                placeholder="Message pour le client (facultatif)"></textarea>
 
 
             <button
                 type="submit"
                 class="primary-btn full-width">
 
-                إرسال العرض
+                Envoyer l'offre
 
             </button>
 
@@ -957,7 +974,7 @@
         </button>
 
         <h2>
-            ⭐ تقييم الحرفي
+            ⭐ Évaluer le prestataire
         </h2>
 
 
@@ -965,12 +982,14 @@
 
             <input
                 type="hidden"
-                id="ratingRequestId">
+                id="ratingRequestId"
+            >
 
 
             <input
                 type="hidden"
-                id="ratingWorkerId">
+                id="ratingWorkerId"
+            >
 
 
             <div class="stars-input">
@@ -1011,20 +1030,20 @@
             <input
                 type="hidden"
                 id="ratingStars"
-                value="5">
+                value="5"
+            >
 
 
             <textarea
                 id="ratingComment"
-                placeholder="اكتب تعليقك...">
-            </textarea>
+                placeholder="Écrivez votre commentaire..."></textarea>
 
 
             <button
                 type="submit"
                 class="primary-btn full-width">
 
-                إرسال التقييم
+                Envoyer l'évaluation
 
             </button>
 
@@ -1084,11 +1103,11 @@
             <div>
 
                 <h2>
-                    🔔 الإشعارات
+                    🔔 Notifications
                 </h2>
 
                 <p>
-                    آخر التنبيهات الخاصة بحسابك
+                    Dernières notifications de votre compte
                 </p>
 
             </div>
@@ -1098,7 +1117,7 @@
                 class="small-btn"
                 onclick="markAllNotificationsRead()">
 
-                ✓ قراءة الكل
+                ✓ Tout marquer comme lu
 
             </button>
 
@@ -1110,7 +1129,7 @@
             class="notifications-list">
 
             <div class="empty-message">
-                لا توجد إشعارات.
+                Aucune notification.
             </div>
 
         </div>
@@ -1135,11 +1154,11 @@
             <div>
 
                 <h2>
-                    💬 المحادثة
+                    💬 Conversation
                 </h2>
 
                 <p id="chatPersonName">
-                    الحرفي
+                    Prestataire
                 </p>
 
             </div>
@@ -1162,7 +1181,7 @@
             class="chat-messages">
 
             <div class="chat-empty">
-                لا توجد رسائل بعد 👋
+                Aucun message pour le moment 👋
             </div>
 
         </div>
@@ -1175,17 +1194,18 @@
             <input
                 type="text"
                 id="chatInput"
-                placeholder="اكتب رسالتك..."
+                placeholder="Écrivez votre message..."
                 autocomplete="off"
                 maxlength="1000"
-                required>
+                required
+            >
 
 
             <button
                 type="submit"
                 class="send-message-btn">
 
-                إرسال
+                Envoyer
 
             </button>
 
@@ -1196,7 +1216,11 @@
 </div>
 
 
-<script src="script.js"></script>
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="script.js?v=4"></script>
 
 </body>
 </html>
