@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <title>Khidmati DZ 🇩🇿 | Plateforme de services en Algérie</title>
+
+    <meta
+        name="description"
+        content="Khidmati DZ est une plateforme algérienne qui met en relation les clients avec les artisans et prestataires de services. Demandez un service, comparez les offres et contactez le prestataire."
+    >
+
+    <meta
+        name="keywords"
+        content="Khidmati DZ, services Algérie, artisans Algérie, prestataires Algérie, demande de service, artisan"
+    >
+
+    <meta name="robots" content="index, follow">
+
+    <meta
+        name="google-site-verification"
+        content="Zj0uxlomfyaE99SYZcB9is7MxeVDh2yNfgK1CEGp0Kk"
+    >
+
+    <!-- SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Khidmati DZ",
+        "alternateName": "خدمتي DZ",
+        "url": "https://fabbou28-lgtm.github.io/khidmati-dz/",
+        "description": "Khidmati DZ est une plateforme algérienne qui met en relation les clients avec les artisans et prestataires de services.",
+        "inLanguage": "fr-DZ"
+    }
+    </script>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+
+<body>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="logo">
+        🔧 Khidmati <span>DZ 🇩🇿</span>
+    </div>
+
+    <div class="header-actions">
+
+        <button
+            id="notificationButton"
+            class="notification-button"
+            onclick="openNotifications()"
+            title="Notifications">
+
+            🔔
+
+            <span
+                id="notificationBadge"
+                class="notification-badge hidden">
+                0
+            </span>
+
+        </button>
+
+        <button
+            id="accountButton"
+            class="account-button"
+            onclick="openAccountModal()">
+
+            👤 Mon compte
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Vous cherchez un artisan ?
+            <br>
+            <span>Khidmati DZ</span>
+            est là pour vous aider 🇩🇿
+        </h1>
+
+        <p>
+            Demandez un service, comparez les prix et choisissez le prestataire qui vous convient.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button
+                class="primary-btn"
+                onclick="openRequestModal()">
+
+                ➕ Demander un service
+
+            </button>
+
+            <button
+                class="secondary-btn"
+                onclick="scrollToWorkers()">
+
+                👨‍🔧 Découvrir les prestataires
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SEARCH
+===================================================== -->
+
+<section class="search-section">
+
+    <h2>🔎 De quoi avez-vous besoin ?</h2>
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Rechercher un électricien, plombier, menuisier..."
+    >
+
+</section>
+
+
+<!-- =====================================================
+     SERVICES
+===================================================== -->
+
+<section class="services-section">
+
+    <h2>Nos services</h2>
+
+    <div class="services-grid">
+
+        <div
+            class="service-card"
+            data-service="كهربائي"
+            onclick="selectServiceAndOpenRequest('كهربائي')">
+
+            ⚡
+
+            <h3>Électricien</h3>
+
+            <p>
+                Installation et réparation électrique
+            </p>
+
+        </div>
+
+
+        <div
+            class="service-card"
+            data-service="سباك"
+            onclick="selectServiceAndOpenRequest('سباك')">
+
+            🚰
+
+            <h3>Plombier</h3>
+
+            <p>
+                Réparation de l'eau et des canalisations
+            </p>
+
+        </div>
+
+
+        <div
+            class="service-card"
+            data-service="تنظيف"
+            onclick="selectServiceAndOpenRequest('تنظيف')">
+
+            🧹
+
+            <h3>Nettoyage</h3>
+
+            <p>
+                Nettoyage des maisons et des locaux
+            </p>
+
+        </div>
+
+
+        <div
+            class="service-card"
+            data-service="إصلاح الهواتف"
+            onclick="selectServiceAndOpenRequest('إصلاح الهواتف')">
+
+            📱
+
+            <h3>Réparation de téléphones</h3>
+
+            <p>
+                Entretien et réparation des téléphones
+            </p>
+
+        </div>
+
+
+        <div
+            class="service-card"
+            data-service="نجار"
+            onclick="selectServiceAndOpenRequest('نجار')">
+
+            🪚
+
+            <h3>Menuisier</h3>
+
+            <p>
+                Travaux de bois et de mobilier
+            </p>
+
+        </div>
+
+
+        <div
+            class="service-card"
+            data-service="دهان"
+            onclick="selectServiceAndOpenRequest('دهان')">
+
+            🎨
+
+            <h3>Peintre</h3>
+
+            <p>
+                Peinture et rénovation des maisons
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     WORKER DASHBOARD
+===================================================== -->
+
+<section
+    id="workerDashboard"
+    class="dashboard-section hidden">
+
+    <div class="section-title-row">
+
+        <div>
+
+            <h2>
+                👨‍🔧 Tableau de bord du prestataire
+            </h2>
+
+            <p>
+                Les demandes correspondant à votre spécialité et à votre wilaya
+            </p>
+
+        </div>
+
+        <button
+            class="small-btn"
+            onclick="openMyProfile()">
+
+            👤 Mon profil
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="workerMiniProfile"
+        class="worker-mini-profile">
+    </div>
+
+
+    <div id="workerRequests"></div>
+
+</section>
+
+
+<!-- =====================================================
+     CUSTOMER REQUESTS
+===================================================== -->
+
+<section
+    id="customerRequestsSection"
+    class="dashboard-section hidden">
+
+    <div class="section-title-row">
+
+        <div>
+
+            <h2>
+                📋 Mes demandes
+            </h2>
+
+            <p>
+                Suivez vos demandes et les offres reçues
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div id="customerRequests"></div>
+
+</section>
+
+
+<!-- =====================================================
+     WORKERS
+===================================================== -->
+
+<section
+    id="workersSection"
+    class="workers-section">
+
+    <div class="section-title-row">
+
+        <div>
+
+            <h2>
+                ⭐ Prestataires recommandés
+            </h2>
+
+            <p>
+                Recherchez le prestataire adapté selon la wilaya et la spécialité
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="worker-filters">
+
+        <div class="filter-box">
+
+            <label for="workerWilayaFilter">
+                🏙️ Wilaya
+            </label>
+
+            <input
+                type="text"
+                id="workerWilayaFilter"
+                list="wilayaList"
+                placeholder="Exemple : Sétif"
+            >
+
+        </div>
+
+
+        <div class="filter-box">
+
+            <label for="workerSpecialityFilter">
+                🔧 Spécialité
+            </label>
+
+            <select id="workerSpecialityFilter">
+
+                <option value="">
+                    Toutes les spécialités
+                </option>
+
+                <!-- Les valeurs restent en arabe pour préserver la compatibilité avec Supabase -->
+
+                <option value="كهربائي">
+                    ⚡ Électricien
+                </option>
+
+                <option value="سباك">
+                    🚰 Plombier
+                </option>
+
+                <option value="تنظيف">
+                    🧹 Nettoyage
+                </option>
+
+                <option value="إصلاح الهواتف">
+                    📱 Réparation de téléphones
+                </option>
+
+                <option value="نجار">
+                    🪚 Menuisier
+                </option>
+
+                <option value="دهان">
+                    🎨 Peintre
+                </option>
+
+                <option value="أخرى">
+                    🔧 Autre
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            class="clear-filter-btn"
+            onclick="clearWorkerFilters()">
+
+            ✖ Effacer
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="workersList"
+        class="workers-grid">
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     BOTTOM NAVIGATION
+===================================================== -->
+
+<nav class="bottom-nav">
+
+    <button onclick="scrollToTop()">
+        🏠
+        <span>Accueil</span>
+    </button>
+
+    <button onclick="openRequestModal()">
+        ➕
+        <span>Demande</span>
+    </button>
+
+    <button onclick="scrollToWorkers()">
+        👨‍🔧
+        <span>Prestataires</span>
+    </button>
+
+    <button onclick="openNotifications()">
+        🔔
+        <span>Notifications</span>
+    </button>
+
+    <button onclick="openAccountModal()">
+        👤
+        <span>Compte</span>
+    </button>
+
+</nav>
+
+
+<!-- =====================================================
+     WILAYAS
+===================================================== -->
+
+<datalist id="wilayaList">
+
+    <option value="Adrar">
+    <option value="Chlef">
+    <option value="Laghouat">
+    <option value="Oum El Bouaghi">
+    <option value="Batna">
+    <option value="Béjaïa">
+    <option value="Biskra">
+    <option value="Béchar">
+    <option value="Blida">
+    <option value="Bouira">
+    <option value="Tamanrasset">
+    <option value="Tébessa">
+    <option value="Tlemcen">
+    <option value="Tiaret">
+    <option value="Tizi Ouzou">
+    <option value="Alger">
+    <option value="Djelfa">
+    <option value="Jijel">
+    <option value="Sétif">
+    <option value="Saïda">
+    <option value="Skikda">
+    <option value="Sidi Bel Abbès">
+    <option value="Annaba">
+    <option value="Guelma">
+    <option value="Constantine">
+    <option value="Médéa">
+    <option value="Mostaganem">
+    <option value="M'Sila">
+    <option value="Mascara">
+    <option value="Ouargla">
+    <option value="Oran">
+    <option value="El Bayadh">
+    <option value="Illizi">
+    <option value="Bordj Badji Mokhtar">
+    <option value="Bordj Bou Arréridj">
+    <option value="Boumerdès">
+    <option value="El Tarf">
+    <option value="Tindouf">
+    <option value="Tissemsilt">
+    <option value="El Oued">
+    <option value="Khenchela">
+    <option value="Souk Ahras">
+    <option value="Tipaza">
+    <option value="Mila">
+    <option value="Aïn Defla">
+    <option value="Naâma">
+    <option value="Aïn Témouchent">
+    <option value="Relizane">
+    <option value="Timimoun">
+    <option value="Bordj Badji Mokhtar">
+    <option value="Ouled Djellal">
+    <option value="Béni Abbès">
+    <option value="In Salah">
+    <option value="In Guezzam">
+    <option value="Touggourt">
+    <option value="Djanet">
+    <option value="El Meghaier">
+    <option value="El Meniaa">
+
+</datalist>
+
+
+<!-- =====================================================
+     ACCOUNT MODAL
+===================================================== -->
+
+<div
+    id="accountModal"
+    class="modal">
+
+    <div class="modal-content">
+
+        <button
+            class="close-btn"
+            onclick="closeModal('accountModal')">
+
+            ×
+
+        </button>
+
+        <h2>
+            👤 Compte
+        </h2>
+
+        <div id="accountContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     REGISTER MODAL
+===================================================== -->
+
+<div
+    id="registerModal"
+    class="modal">
+
+    <div class="modal-content">
+
+        <button
+            class="close-btn"
+            onclick="closeModal('registerModal')">
+
+            ×
+
+        </button>
+
+        <h2>
+            📝 Créer un compte
+        </h2>
+
+
+        <form id="registerForm">
+
+            <input
+                type="text"
+                id="registerName"
+                placeholder="Nom complet"
+                required
+            >
+
+            <input
+                type="email"
+                id="registerEmail"
+                placeholder="Adresse e-mail"
+                required
+            >
+
+            <input
+                type="tel"
+                id="registerPhone"
+                placeholder="Numéro de téléphone"
+                required
+            >
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Mot de passe"
+                minlength="6"
+                required
+            >
+
+            <select
+                id="registerRole"
+                required>
+
+                <option value="customer">
+                    👤 Client
+                </option>
+
+                <option value="worker">
+                    👨‍🔧 Prestataire
+                </option>
+
+            </select>
+
+
+            <div
+                id="workerRegisterFields"
+                class="hidden">
+
+                <select id="registerSpeciality">
+
+                    <option value="">
+                        Choisissez votre spécialité
+                    </option>
+
+                    <option value="كهربائي">
+                        ⚡ Électricien
+                    </option>
+
+                    <option value="سباك">
+                        🚰 Plombier
+                    </option>
+
+                    <option value="تنظيف">
+                        🧹 Nettoyage
+                    </option>
+
+                    <option value="إصلاح الهواتف">
+                        📱 Réparation de téléphones
+                    </option>
+
+                    <option value="نجار">
+                        🪚 Menuisier
+                    </option>
+
+                    <option value="دهان">
+                        🎨 Peintre
+                    </option>
+
+                    <option value="أخرى">
+                        🔧 Autre
+                    </option>
+
+                </select>
+
+
+                <input
+                    type="text"
+                    id="registerWilaya"
+                    list="wilayaList"
+                    placeholder="Votre wilaya, exemple : Sétif"
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-btn full-width">
+
+                Créer mon compte
+
+            </button>
+
+        </form>
+
+
+        <p class="switch-text">
+
+            Vous avez déjà un compte ?
+
+            <button onclick="switchToLogin()">
+                Se connecter
+            </button>
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     LOGIN MODAL
+===================================================== -->
+
+<div
+    id="loginModal"
+    class="modal">
+
+    <div class="modal-content">
+
+        <button
+            class="close-btn"
+            onclick="closeModal('loginModal')">
+
+            ×
+
+        </button>
+
+        <h2>
+            🔐 Connexion
+        </h2>
+
+
+        <form id="loginForm">
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Adresse e-mail"
+                required
+            >
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Mot de passe"
+                required
+            >
+
+            <button
+                type="submit"
+                class="primary-btn full-width">
+
+                Se connecter
+
+            </button>
+
+        </form>
+
+
+        <p class="switch-text">
+
+            Vous n'avez pas encore de compte ?
+
+            <button onclick="switchToRegister()">
+                Créer un compte
+            </button>
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     REQUEST MODAL
+===================================================== -->
+
+<div
+    id="requestModal"
+    class="modal">
+
+    <div class="modal-content">
+
+        <button
+            class="close-btn"
+            onclick="closeModal('requestModal')">
+
+            ×
+
+        </button>
+
+        <h2>
+            ➕ Demander un service
+        </h2>
+
+
+        <form id="requestForm">
+
+            <select
+                id="requestService"
+                required>
+
+                <option value="">
+                    Choisissez un service
+                </option>
+
+                <option value="كهربائي">
+                    ⚡ Électricien
+                </option>
+
+                <option value="سباك">
+                    🚰 Plombier
+                </option>
+
+                <option value="تنظيف">
+                    🧹 Nettoyage
+                </option>
+
+                <option value="إصلاح الهواتف">
+                    📱 Réparation de téléphones
+                </option>
+
+                <option value="نجار">
+                    🪚 Menuisier
+                </option>
+
+                <option value="دهان">
+                    🎨 Peintre
+                </option>
+
+                <option value="أخرى">
+                    🔧 Autre
+                </option>
+
+            </select>
+
+
+            <textarea
+                id="requestDescription"
+                placeholder="Décrivez précisément ce dont vous avez besoin..."
+                required></textarea>
+
+
+            <input
+                type="number"
+                id="requestBudget"
+                placeholder="Budget proposé en dinars (facultatif)"
+                min="0"
+            >
+
+
+            <input
+                type="text"
+                id="requestWilaya"
+                list="wilayaList"
+                placeholder="Wilaya où vous avez besoin du service"
+                required
+            >
+
+
+            <input
+                type="text"
+                id="requestLocation"
+                placeholder="Adresse ou zone détaillée"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="primary-btn full-width">
+
+                Publier la demande
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     OFFER MODAL
+===================================================== -->
+
+<div
+    id="offerModal"
+    class="modal">
+
+    <div class="modal-content">
+
+        <button
+            class="close-btn"
+            onclick="closeModal('offerModal')">
+
+            ×
+
+        </button>
+
+        <h2>
+            💰 Faire une offre
+        </h2>
+
+
+        <form id="offerForm">
+
+            <input
+                type="hidden"
+                id="offerRequestId"
+            >
+
+
+            <input
+                type="number"
+                id="offerPrice"
+                placeholder="Prix en dinars"
+                min="0"
+                required
+            >
+
+
+            <textarea
+                id="offerMessage"
+                placeholder="Message pour le client (facultatif)"></textarea>
+
+
+            <button
+                type="submit"
+                class="primary-btn full-width">
+
+                Envoyer l'offre
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     RATING MODAL
+===================================================== -->
+
+<div
+    id="ratingModal"
+    class="modal">
+
+    <div class="modal-content">
+
+        <button
+            class="close-btn"
+            onclick="closeModal('ratingModal')">
+
+            ×
+
+        </button>
+
+        <h2>
+            ⭐ Évaluer le prestataire
+        </h2>
+
+
+        <form id="ratingForm">
+
+            <input
+                type="hidden"
+                id="ratingRequestId"
+            >
+
+
+            <input
+                type="hidden"
+                id="ratingWorkerId"
+            >
+
+
+            <div class="stars-input">
+
+                <button
+                    type="button"
+                    onclick="setRating(1)">
+                    ★
+                </button>
+
+                <button
+                    type="button"
+                    onclick="setRating(2)">
+                    ★
+                </button>
+
+                <button
+                    type="button"
+                    onclick="setRating(3)">
+                    ★
+                </button>
+
+                <button
+                    type="button"
+                    onclick="setRating(4)">
+                    ★
+                </button>
+
+                <button
+                    type="button"
+                    onclick="setRating(5)">
+                    ★
+                </button>
+
+            </div>
+
+
+            <input
+                type="hidden"
+                id="ratingStars"
+                value="5"
+            >
+
+
+            <textarea
+                id="ratingComment"
+                placeholder="Écrivez votre commentaire..."></textarea>
+
+
+            <button
+                type="submit"
+                class="primary-btn full-width">
+
+                Envoyer l'évaluation
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     PROFILE MODAL
+===================================================== -->
+
+<div
+    id="profileModal"
+    class="modal">
+
+    <div class="modal-content">
+
+        <button
+            class="close-btn"
+            onclick="closeModal('profileModal')">
+
+            ×
+
+        </button>
+
+        <div id="profileContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     NOTIFICATIONS MODAL
+===================================================== -->
+
+<div
+    id="notificationsModal"
+    class="modal">
+
+    <div class="modal-content notifications-modal">
+
+        <button
+            class="close-btn"
+            onclick="closeModal('notificationsModal')">
+
+            ×
+
+        </button>
+
+
+        <div class="notifications-title-row">
+
+            <div>
+
+                <h2>
+                    🔔 Notifications
+                </h2>
+
+                <p>
+                    Dernières notifications de votre compte
+                </p>
+
+            </div>
+
+
+            <button
+                class="small-btn"
+                onclick="markAllNotificationsRead()">
+
+                ✓ Tout marquer comme lu
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="notificationsList"
+            class="notifications-list">
+
+            <div class="empty-message">
+                Aucune notification.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CHAT MODAL
+===================================================== -->
+
+<div
+    id="chatModal"
+    class="modal">
+
+    <div class="modal-content chat-modal">
+
+        <div class="chat-header">
+
+            <div>
+
+                <h2>
+                    💬 Conversation
+                </h2>
+
+                <p id="chatPersonName">
+                    Prestataire
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="close-btn"
+                onclick="closeChat()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="chatMessages"
+            class="chat-messages">
+
+            <div class="chat-empty">
+                Aucun message pour le moment 👋
+            </div>
+
+        </div>
+
+
+        <form
+            id="chatForm"
+            class="chat-form">
+
+            <input
+                type="text"
+                id="chatInput"
+                placeholder="Écrivez votre message..."
+                autocomplete="off"
+                maxlength="1000"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="send-message-btn">
+
+                Envoyer
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="script.js?v=4"></script>
+
+</body>
+</html>
