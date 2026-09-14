@@ -1,5 +1,6 @@
 // =====================================================
 // KHIDMATI DZ 🇩🇿
+// Interface française
 // =====================================================
 
 
@@ -25,15 +26,10 @@ const supabaseClient =
 // =====================================================
 
 let currentUser = null;
-
 let currentProfile = null;
-
 let selectedRating = 5;
-
 let currentConversationId = null;
-
 let currentChatChannel = null;
-
 let currentNotificationChannel = null;
 
 
@@ -42,7 +38,6 @@ let currentNotificationChannel = null;
 // =====================================================
 
 function normalizeWilaya(value) {
-
     return String(value || "")
         .trim()
         .toLowerCase()
@@ -53,7 +48,6 @@ function normalizeWilaya(value) {
 
 
 function escapeHTML(value) {
-
     return String(value ?? "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -64,56 +58,109 @@ function escapeHTML(value) {
 
 
 function openModal(id) {
-
-    const modal =
-        document.getElementById(id);
+    const modal = document.getElementById(id);
 
     if (modal) {
-
         modal.classList.add("active");
     }
 }
 
 
 function closeModal(id) {
-
-    const modal =
-        document.getElementById(id);
+    const modal = document.getElementById(id);
 
     if (modal) {
-
         modal.classList.remove("active");
     }
 }
 
 
 function showMessage(message) {
-
     alert(message);
 }
 
 
 function scrollToTop() {
-
     window.scrollTo({
-
         top: 0,
-
         behavior: "smooth"
-
     });
 }
 
 
 function scrollToWorkers() {
-
     document
         .getElementById("workersSection")
         ?.scrollIntoView({
-
             behavior: "smooth"
-
         });
+}
+
+
+// =====================================================
+// TRADUCTIONS
+// =====================================================
+
+function translateStatus(status) {
+    const translations = {
+        "جديد": "Nouveau",
+        "مكتمل": "Terminé"
+    };
+
+    return translations[status] || status || "Non défini";
+}
+
+
+function translateRole(role) {
+    if (role === "worker") {
+        return "Prestataire";
+    }
+
+    return "Client";
+}
+
+
+function translateNotificationTitle(title) {
+    const translations = {
+        "📋 طلب خدمة جديد":
+            "📋 Nouvelle demande de service",
+
+        "💰 عرض جديد":
+            "💰 Nouvelle offre",
+
+        "تم اختيارك لتنفيذ الطلب":
+            "Vous avez été sélectionné pour réaliser la demande",
+
+        "⭐ تقييم جديد":
+            "⭐ Nouvelle évaluation",
+
+        "💬 رسالة جديدة":
+            "💬 Nouveau message"
+    };
+
+    return translations[title] || title || "Nouvelle notification";
+}
+
+
+function translateNotificationMessage(message) {
+    const translations = {
+        "تم نشر طلب جديد يناسب تخصصك وفي ولايتك.":
+            "Une nouvelle demande correspondant à votre spécialité et à votre wilaya a été publiée.",
+
+        "تم تقديم عرض جديد على طلبك.":
+            "Une nouvelle offre a été envoyée pour votre demande.",
+
+        "تم اختيارك لتنفيذ هذا الطلب.":
+            "Vous avez été sélectionné pour réaliser cette demande.",
+
+        "تم استلام تقييم جديد.":
+            "Vous avez reçu une nouvelle évaluation.",
+
+        "لديك رسالة جديدة.":
+            "Vous avez reçu un nouveau message."
+    };
+
+    return translations[message] || message || "";
 }
 
 
@@ -122,35 +169,23 @@ function scrollToWorkers() {
 // =====================================================
 
 async function loadCurrentUser() {
-
     const {
         data,
         error
     } = await supabaseClient.auth.getSession();
 
-
     if (error) {
-
         console.error(error);
-
         return;
     }
 
-
-    currentUser =
-        data.session?.user || null;
-
+    currentUser = data.session?.user || null;
 
     if (currentUser) {
-
         await loadCurrentProfile();
-
         await loadNotificationCount();
-
         subscribeToNotifications();
-
     } else {
-
         currentProfile = null;
 
         updateAccountButton();
@@ -166,11 +201,9 @@ async function loadCurrentUser() {
         updateNotificationBadge(0);
 
         if (currentNotificationChannel) {
-
-            await supabaseClient
-                .removeChannel(
-                    currentNotificationChannel
-                );
+            await supabaseClient.removeChannel(
+                currentNotificationChannel
+            );
 
             currentNotificationChannel = null;
         }
@@ -181,9 +214,7 @@ async function loadCurrentUser() {
 
 
 async function loadCurrentProfile() {
-
     if (!currentUser) return;
-
 
     const {
         data,
@@ -194,29 +225,18 @@ async function loadCurrentProfile() {
         .eq("id", currentUser.id)
         .maybeSingle();
 
-
     if (error) {
-
         console.error(error);
-
         return;
     }
 
-
     currentProfile = data;
-
 
     updateAccountButton();
 
-
     if (!currentProfile) return;
 
-
-    if (
-        currentProfile.role ===
-        "worker"
-    ) {
-
+    if (currentProfile.role === "worker") {
         document
             .getElementById("workerDashboard")
             ?.classList.remove("hidden");
@@ -226,9 +246,7 @@ async function loadCurrentProfile() {
             ?.classList.add("hidden");
 
         await loadWorkerDashboard();
-
     } else {
-
         document
             .getElementById("customerRequestsSection")
             ?.classList.remove("hidden");
@@ -240,55 +258,35 @@ async function loadCurrentProfile() {
         await loadCustomerRequests();
     }
 
-
     await loadWorkers();
 }
 
 
 function updateAccountButton() {
-
     const button =
-        document.getElementById(
-            "accountButton"
-        );
-
+        document.getElementById("accountButton");
 
     if (!button) return;
 
-
     if (currentProfile) {
-
         button.textContent =
             `👤 ${currentProfile.name}`;
-
     } else {
-
-        button.textContent =
-            "👤 حسابي";
+        button.textContent = "👤 Mon compte";
     }
 }
 
 
 function openAccountModal() {
-
     const content =
-        document.getElementById(
-            "accountContent"
-        );
-
+        document.getElementById("accountContent");
 
     if (!content) return;
 
-
-    if (
-        !currentUser ||
-        !currentProfile
-    ) {
-
+    if (!currentUser || !currentProfile) {
         content.innerHTML = `
-
             <p class="empty-message">
-                قم بإنشاء حساب أو تسجيل الدخول للاستمرار.
+                Créez un compte ou connectez-vous pour continuer.
             </p>
 
             <br>
@@ -296,9 +294,7 @@ function openAccountModal() {
             <button
                 class="primary-btn full-width"
                 onclick="switchToRegister()">
-
-                📝 إنشاء حساب
-
+                📝 Créer un compte
             </button>
 
             <br><br>
@@ -306,47 +302,30 @@ function openAccountModal() {
             <button
                 class="secondary-btn full-width"
                 onclick="switchToLogin()">
-
-                🔐 تسجيل الدخول
-
+                🔐 Se connecter
             </button>
-
         `;
-
     } else {
-
         content.innerHTML = `
-
             <div class="worker-mini-profile">
 
                 <h3>
-                    👤 ${escapeHTML(
-                        currentProfile.name
-                    )}
+                    👤 ${escapeHTML(currentProfile.name)}
                 </h3>
 
                 <p>
-                    ${
-                        currentProfile.role ===
-                        "worker"
-                            ? "👨‍🔧 حرفي"
-                            : "👤 زبون"
-                    }
+                    ${translateRole(currentProfile.role)}
                 </p>
 
                 <p>
-                    📞 ${escapeHTML(
-                        currentProfile.phone || ""
-                    )}
+                    📞 ${escapeHTML(currentProfile.phone || "")}
                 </p>
 
                 ${
                     currentProfile.wilaya
                         ? `
                         <p>
-                            🏙️ ${escapeHTML(
-                                currentProfile.wilaya
-                            )}
+                            🏙️ ${escapeHTML(currentProfile.wilaya)}
                         </p>
                         `
                         : ""
@@ -356,9 +335,7 @@ function openAccountModal() {
                     currentProfile.speciality
                         ? `
                         <p>
-                            🔧 ${escapeHTML(
-                                currentProfile.speciality
-                            )}
+                            🔧 ${escapeHTML(currentProfile.speciality)}
                         </p>
                         `
                         : ""
@@ -369,14 +346,10 @@ function openAccountModal() {
             <button
                 class="primary-btn full-width"
                 onclick="logout()">
-
-                🚪 تسجيل الخروج
-
+                🚪 Se déconnecter
             </button>
-
         `;
     }
-
 
     openModal("accountModal");
 }
@@ -388,207 +361,164 @@ function openAccountModal() {
 
 document
     .getElementById("registerRole")
-    ?.addEventListener(
-        "change",
-        function () {
+    ?.addEventListener("change", function () {
 
-            const fields =
-                document.getElementById(
-                    "workerRegisterFields"
-                );
+        const fields =
+            document.getElementById(
+                "workerRegisterFields"
+            );
 
+        if (!fields) return;
 
-            if (!fields) return;
-
-
-            if (
-                this.value ===
-                "worker"
-            ) {
-
-                fields.classList.remove(
-                    "hidden"
-                );
-
-            } else {
-
-                fields.classList.add(
-                    "hidden"
-                );
-            }
+        if (this.value === "worker") {
+            fields.classList.remove("hidden");
+        } else {
+            fields.classList.add("hidden");
         }
-    );
+    });
+
+
+document
+    .getElementById("registerPhone")
+    ?.addEventListener("input", function () {
+
+        this.value = this.value.replace(/\D/g, "");
+
+        if (this.value.length > 10) {
+            this.value = this.value.slice(0, 10);
+        }
+    });
 
 
 document
     .getElementById("registerForm")
-    ?.addEventListener(
-        "submit",
-        async function (event) {
+    ?.addEventListener("submit", async function (event) {
 
-            event.preventDefault();
+        event.preventDefault();
 
+        const name =
+            document
+                .getElementById("registerName")
+                .value
+                .trim();
 
-            const name =
-                document
-                    .getElementById(
-                        "registerName"
-                    )
-                    .value
-                    .trim();
+        const email =
+            document
+                .getElementById("registerEmail")
+                .value
+                .trim();
 
+        const phone =
+            document
+                .getElementById("registerPhone")
+                .value
+                .trim();
 
-            const email =
-                document
-                    .getElementById(
-                        "registerEmail"
-                    )
-                    .value
-                    .trim();
+        const password =
+            document
+                .getElementById("registerPassword")
+                .value;
 
+        const role =
+            document
+                .getElementById("registerRole")
+                .value;
 
-            const phone =
-                document
-                    .getElementById(
-                        "registerPhone"
-                    )
-                    .value
-                    .trim();
+        const speciality =
+            document
+                .getElementById("registerSpeciality")
+                .value;
 
+        const wilaya =
+            document
+                .getElementById("registerWilaya")
+                .value
+                .trim();
 
-            const password =
-                document
-                    .getElementById(
-                        "registerPassword"
-                    )
-                    .value;
+        const phoneRegex =
+            /^(05|06|07)[0-9]{8}$/;
 
+        if (!phoneRegex.test(phone)) {
+            showMessage(
+                "Numéro de téléphone incorrect.\n\n" +
+                "Il doit contenir 10 chiffres et commencer par 05, 06 ou 07.\n" +
+                "Exemple : 0551234567"
+            );
 
-            const role =
-                document
-                    .getElementById(
-                        "registerRole"
-                    )
-                    .value;
+            return;
+        }
 
-
-            const speciality =
-                document
-                    .getElementById(
-                        "registerSpeciality"
-                    )
-                    .value;
-
-
-            const wilaya =
-                document
-                    .getElementById(
-                        "registerWilaya"
-                    )
-                    .value
-                    .trim();
-
-
-            if (
-                role === "worker"
-            ) {
-
-                if (!speciality) {
-
-                    showMessage(
-                        "اختر تخصصك أولًا."
-                    );
-
-                    return;
-                }
-
-
-                if (!wilaya) {
-
-                    showMessage(
-                        "اكتب ولايتك."
-                    );
-
-                    return;
-                }
-            }
-
-
-            const {
-                data,
-                error
-            } =
-                await supabaseClient
-                    .auth
-                    .signUp({
-
-                        email,
-
-                        password,
-
-                        options: {
-
-                            data: {
-
-                                name,
-
-                                phone,
-
-                                role,
-
-                                speciality:
-                                    role ===
-                                    "worker"
-                                        ? speciality
-                                        : null,
-
-                                wilaya:
-                                    role ===
-                                    "worker"
-                                        ? wilaya
-                                        : null
-                            }
-                        }
-                    });
-
-
-            if (error) {
-
-                console.error(error);
-
+        if (role === "worker") {
+            if (!speciality) {
                 showMessage(
-                    "حدث خطأ أثناء إنشاء الحساب:\n" +
-                    error.message
+                    "Veuillez choisir votre spécialité."
                 );
 
                 return;
             }
 
+            if (!wilaya) {
+                showMessage(
+                    "Veuillez saisir votre wilaya."
+                );
 
-            closeModal(
-                "registerModal"
+                return;
+            }
+        }
+
+        const {
+            data,
+            error
+        } = await supabaseClient.auth.signUp({
+            email,
+            password,
+
+            options: {
+                data: {
+                    name,
+                    phone,
+                    role,
+
+                    speciality:
+                        role === "worker"
+                            ? speciality
+                            : null,
+
+                    wilaya:
+                        role === "worker"
+                            ? wilaya
+                            : null
+                }
+            }
+        });
+
+        if (error) {
+            console.error(error);
+
+            showMessage(
+                "Une erreur est survenue lors de la création du compte :\n" +
+                error.message
             );
 
-
-            if (data.session) {
-
-                showMessage(
-                    "تم إنشاء الحساب بنجاح 🎉"
-                );
-
-                await loadCurrentUser();
-
-            } else {
-
-                showMessage(
-                    "تم إنشاء الحساب بنجاح ✅\n\n" +
-                    "إذا كان تأكيد البريد الإلكتروني مفعّلًا في Supabase، " +
-                    "افتح بريدك ثم سجّل الدخول."
-                );
-            }
-
+            return;
         }
-    );
+
+        closeModal("registerModal");
+
+        if (data.session) {
+            showMessage(
+                "Compte créé avec succès 🎉"
+            );
+
+            await loadCurrentUser();
+        } else {
+            showMessage(
+                "Compte créé avec succès ✅\n\n" +
+                "Si la confirmation par e-mail est activée dans Supabase, " +
+                "ouvrez votre e-mail puis connectez-vous."
+            );
+        }
+    });
 
 
 // =====================================================
@@ -597,71 +527,48 @@ document
 
 document
     .getElementById("loginForm")
-    ?.addEventListener(
-        "submit",
-        async function (event) {
+    ?.addEventListener("submit", async function (event) {
 
-            event.preventDefault();
+        event.preventDefault();
 
+        const email =
+            document
+                .getElementById("loginEmail")
+                .value
+                .trim();
 
-            const email =
-                document
-                    .getElementById(
-                        "loginEmail"
-                    )
-                    .value
-                    .trim();
+        const password =
+            document
+                .getElementById("loginPassword")
+                .value;
 
+        const {
+            data,
+            error
+        } = await supabaseClient.auth.signInWithPassword({
+            email,
+            password
+        });
 
-            const password =
-                document
-                    .getElementById(
-                        "loginPassword"
-                    )
-                    .value;
-
-
-            const {
-                data,
-                error
-            } =
-                await supabaseClient
-                    .auth
-                    .signInWithPassword({
-
-                        email,
-
-                        password
-
-                    });
-
-
-            if (error) {
-
-                console.error(error);
-
-                showMessage(
-                    "فشل تسجيل الدخول:\n" +
-                    error.message
-                );
-
-                return;
-            }
-
-
-            closeModal(
-                "loginModal"
-            );
-
+        if (error) {
+            console.error(error);
 
             showMessage(
-                "تم تسجيل الدخول بنجاح 🎉"
+                "Échec de la connexion :\n" +
+                error.message
             );
 
-
-            await loadCurrentUser();
+            return;
         }
-    );
+
+        closeModal("loginModal");
+
+        showMessage(
+            "Connexion réussie 🎉"
+        );
+
+        await loadCurrentUser();
+    });
 
 
 // =====================================================
@@ -669,77 +576,45 @@ document
 // =====================================================
 
 async function logout() {
-
     await closeChat();
 
-
     if (currentNotificationChannel) {
-
-        await supabaseClient
-            .removeChannel(
-                currentNotificationChannel
-            );
+        await supabaseClient.removeChannel(
+            currentNotificationChannel
+        );
 
         currentNotificationChannel = null;
     }
 
-
     const {
         error
-    } =
-        await supabaseClient
-            .auth
-            .signOut();
-
+    } = await supabaseClient.auth.signOut();
 
     if (error) {
-
-        showMessage(
-            error.message
-        );
-
+        showMessage(error.message);
         return;
     }
 
-
     currentUser = null;
-
     currentProfile = null;
 
-
-    closeModal(
-        "accountModal"
-    );
-
+    closeModal("accountModal");
 
     updateAccountButton();
-
     updateNotificationBadge(0);
 
+    document
+        .getElementById("workerDashboard")
+        ?.classList.add("hidden");
 
     document
-        .getElementById(
-            "workerDashboard"
-        )
-        ?.classList.add(
-            "hidden"
-        );
-
-
-    document
-        .getElementById(
-            "customerRequestsSection"
-        )
-        ?.classList.add(
-            "hidden"
-        );
-
+        .getElementById("customerRequestsSection")
+        ?.classList.add("hidden");
 
     await loadWorkers();
 
-
     showMessage(
-        "تم تسجيل الخروج."
+        "Vous êtes déconnecté."
     );
 }
 
@@ -749,34 +624,16 @@ async function logout() {
 // =====================================================
 
 function switchToRegister() {
-
-    closeModal(
-        "accountModal"
-    );
-
-    closeModal(
-        "loginModal"
-    );
-
-    openModal(
-        "registerModal"
-    );
+    closeModal("accountModal");
+    closeModal("loginModal");
+    openModal("registerModal");
 }
 
 
 function switchToLogin() {
-
-    closeModal(
-        "accountModal"
-    );
-
-    closeModal(
-        "registerModal"
-    );
-
-    openModal(
-        "loginModal"
-    );
+    closeModal("accountModal");
+    closeModal("registerModal");
+    openModal("loginModal");
 }
 
 
@@ -785,207 +642,137 @@ function switchToLogin() {
 // =====================================================
 
 function openRequestModal() {
-
     if (!currentUser) {
-
         showMessage(
-            "يجب تسجيل الدخول أولًا حتى تستطيع نشر طلب."
+            "Vous devez d'abord vous connecter pour publier une demande."
         );
 
         openAccountModal();
-
         return;
     }
 
-
-    openModal(
-        "requestModal"
-    );
+    openModal("requestModal");
 }
 
 
-function selectServiceAndOpenRequest(
-    service
-) {
-
+function selectServiceAndOpenRequest(service) {
     if (!currentUser) {
-
         showMessage(
-            "سجّل الدخول أولًا حتى تستطيع طلب الخدمة."
+            "Connectez-vous d'abord pour demander un service."
         );
 
         openAccountModal();
-
         return;
     }
 
-
     const serviceInput =
-        document.getElementById(
-            "requestService"
-        );
-
+        document.getElementById("requestService");
 
     if (serviceInput) {
-
-        serviceInput.value =
-            service;
+        serviceInput.value = service;
     }
 
-
-    openModal(
-        "requestModal"
-    );
+    openModal("requestModal");
 }
 
 
 document
     .getElementById("requestForm")
-    ?.addEventListener(
-        "submit",
-        async function (event) {
+    ?.addEventListener("submit", async function (event) {
 
-            event.preventDefault();
+        event.preventDefault();
 
-
-            if (!currentUser) {
-
-                showMessage(
-                    "يجب تسجيل الدخول."
-                );
-
-                return;
-            }
-
-
-            const service =
-                document
-                    .getElementById(
-                        "requestService"
-                    )
-                    .value;
-
-
-            const description =
-                document
-                    .getElementById(
-                        "requestDescription"
-                    )
-                    .value
-                    .trim();
-
-
-            const budget =
-                document
-                    .getElementById(
-                        "requestBudget"
-                    )
-                    .value;
-
-
-            const wilaya =
-                document
-                    .getElementById(
-                        "requestWilaya"
-                    )
-                    .value
-                    .trim();
-
-
-            const location =
-                document
-                    .getElementById(
-                        "requestLocation"
-                    )
-                    .value
-                    .trim();
-
-
-            if (
-                !service ||
-                !description ||
-                !wilaya ||
-                !location
-            ) {
-
-                showMessage(
-                    "املأ جميع المعلومات المطلوبة."
-                );
-
-                return;
-            }
-
-
-            const {
-                error
-            } =
-                await supabaseClient
-                    .from("requests")
-                    .insert({
-
-                        customer_id:
-                            currentUser.id,
-
-                        service,
-
-                        description,
-
-                        budget:
-                            budget
-                                ? Number(
-                                    budget
-                                )
-                                : null,
-
-                        wilaya,
-
-                        location,
-
-                        status:
-                            "جديد"
-                    });
-
-
-            if (error) {
-
-                console.error(error);
-
-                showMessage(
-                    "حدث خطأ أثناء نشر الطلب:\n" +
-                    error.message
-                );
-
-                return;
-            }
-
-
-            closeModal(
-                "requestModal"
+        if (!currentUser) {
+            showMessage(
+                "Vous devez être connecté."
             );
 
+            return;
+        }
 
+        const service =
             document
-                .getElementById(
-                    "requestForm"
-                )
-                .reset();
+                .getElementById("requestService")
+                .value;
 
+        const description =
+            document
+                .getElementById("requestDescription")
+                .value
+                .trim();
+
+        const budget =
+            document
+                .getElementById("requestBudget")
+                .value;
+
+        const wilaya =
+            document
+                .getElementById("requestWilaya")
+                .value
+                .trim();
+
+        const location =
+            document
+                .getElementById("requestLocation")
+                .value
+                .trim();
+
+        if (
+            !service ||
+            !description ||
+            !wilaya ||
+            !location
+        ) {
+            showMessage(
+                "Veuillez remplir toutes les informations obligatoires."
+            );
+
+            return;
+        }
+
+        const {
+            error
+        } = await supabaseClient
+            .from("requests")
+            .insert({
+                customer_id: currentUser.id,
+                service,
+                description,
+                budget: budget
+                    ? Number(budget)
+                    : null,
+                wilaya,
+                location,
+                status: "جديد"
+            });
+
+        if (error) {
+            console.error(error);
 
             showMessage(
-                "تم نشر طلبك بنجاح 🎉\n" +
-                "سيظهر للحرفيين المناسبين في ولايتك."
+                "Une erreur est survenue lors de la publication de la demande :\n" +
+                error.message
             );
 
-
-            if (
-                currentProfile?.role ===
-                "customer"
-            ) {
-
-                await loadCustomerRequests();
-            }
+            return;
         }
-    );
+
+        closeModal("requestModal");
+
+        document
+            .getElementById("requestForm")
+            .reset();
+
+        showMessage(
+            "Votre demande a été publiée avec succès 🎉\n" +
+            "Elle sera visible par les prestataires correspondant à votre spécialité et votre wilaya."
+        );
+
+        if (currentProfile?.role === "customer") {
+            await loadCustomerRequests();
+        }
+    });
 
 
 // =====================================================
@@ -993,153 +780,98 @@ document
 // =====================================================
 
 async function loadCustomerRequests() {
-
     if (!currentUser) return;
-
 
     const container =
         document.getElementById(
             "customerRequests"
         );
 
-
     if (!container) return;
-
 
     const {
         data: requests,
         error
-    } =
-        await supabaseClient
-            .from("requests")
-            .select("*")
-            .eq(
-                "customer_id",
-                currentUser.id
-            )
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
-
+    } = await supabaseClient
+        .from("requests")
+        .select("*")
+        .eq("customer_id", currentUser.id)
+        .order("created_at", {
+            ascending: false
+        });
 
     if (error) {
-
         console.error(error);
 
         container.innerHTML = `
-
             <div class="empty-message">
-                تعذر تحميل الطلبات.
+                Impossible de charger vos demandes.
             </div>
-
         `;
 
         return;
     }
 
-
-    if (
-        !requests ||
-        requests.length === 0
-    ) {
-
+    if (!requests || requests.length === 0) {
         container.innerHTML = `
-
             <div class="empty-message">
-                لم تنشر أي طلب بعد.
+                Vous n'avez encore publié aucune demande.
             </div>
-
         `;
 
         return;
     }
-
 
     container.innerHTML = "";
 
-
-    for (
-        const request of requests
-    ) {
+    for (const request of requests) {
 
         const {
             data: offers,
             error: offersError
-        } =
-            await supabaseClient
-                .from("offers")
-                .select("*")
-                .eq(
-                    "request_id",
-                    request.id
-                )
-                .order(
-                    "price",
-                    {
-                        ascending: true
-                    }
-                );
-
+        } = await supabaseClient
+            .from("offers")
+            .select("*")
+            .eq("request_id", request.id)
+            .order("price", {
+                ascending: true
+            });
 
         if (offersError) {
-
-            console.error(
-                offersError
-            );
+            console.error(offersError);
         }
-
 
         let offersHTML = "";
 
+        if (offers && offers.length > 0) {
 
-        if (
-            offers &&
-            offers.length > 0
-        ) {
-
-            for (
-                const offer of offers
-            ) {
+            for (const offer of offers) {
 
                 const {
                     data: worker
-                } =
-                    await supabaseClient
-                        .from("profiles")
-                        .select(
-                            "id,name,phone,speciality,wilaya"
-                        )
-                        .eq(
-                            "id",
-                            offer.worker_id
-                        )
-                        .maybeSingle();
-
+                } = await supabaseClient
+                    .from("profiles")
+                    .select(
+                        "id,name,phone,speciality,wilaya"
+                    )
+                    .eq("id", offer.worker_id)
+                    .maybeSingle();
 
                 if (!worker) continue;
-
 
                 const {
                     average,
                     completed
-                } =
-                    await getWorkerStats(
-                        worker.id
-                    );
-
+                } = await getWorkerStats(
+                    worker.id
+                );
 
                 offersHTML += `
-
                     <div class="offer-card">
 
                         <h3>
                             👨‍🔧
-                            ${escapeHTML(
-                                worker.name
-                            )}
+                            ${escapeHTML(worker.name)}
                         </h3>
 
                         <p class="worker-speciality">
@@ -1153,30 +885,25 @@ async function loadCustomerRequests() {
                                 ? `
                                 <p>
                                     🏙️
-                                    ${escapeHTML(
-                                        worker.wilaya
-                                    )}
+                                    ${escapeHTML(worker.wilaya)}
                                 </p>
                                 `
                                 : ""
                         }
 
                         <p>
-                            ⭐
-                            ${average.toFixed(1)}
+                            ⭐ ${average.toFixed(1)}
                             ·
-                            ✅
-                            ${completed}
-                            خدمة مكتملة
+                            ✅ ${completed}
+                            service(s) terminée(s)
                         </p>
 
                         <p>
                             💰
-
                             <strong>
                                 ${Number(
                                     offer.price
-                                ).toLocaleString()}
+                                ).toLocaleString("fr-DZ")}
                                 DA
                             </strong>
                         </p>
@@ -1193,7 +920,6 @@ async function loadCustomerRequests() {
                                 : ""
                         }
 
-
                         <div class="worker-actions">
 
                             <button
@@ -1201,43 +927,30 @@ async function loadCustomerRequests() {
                                 onclick="openWorkerProfile(
                                     '${worker.id}'
                                 )">
-
-                                👤 الملف
-
+                                👤 Profil
                             </button>
-
 
                             <button
                                 class="chat-button"
                                 onclick="openChatForRequest(
                                     ${request.id},
                                     '${worker.id}',
-                                    '${escapeHTML(
-                                        worker.name
-                                    )}'
+                                    '${escapeHTML(worker.name)}'
                                 )">
-
-                                💬 مراسلة
-
+                                💬 Contacter
                             </button>
 
-
                             ${
-                                request.status !==
-                                "مكتمل"
+                                request.status !== "مكتمل"
                                     ? `
-
                                     <button
                                         class="primary-btn"
                                         onclick="completeRequest(
                                             ${request.id},
                                             '${worker.id}'
                                         )">
-
-                                        ✅ اختيار وإنهاء
-
+                                        ✅ Choisir et terminer
                                     </button>
-
                                     `
                                     : ""
                             }
@@ -1245,118 +958,78 @@ async function loadCustomerRequests() {
                         </div>
 
                     </div>
-
                 `;
             }
 
         } else {
-
             offersHTML = `
-
                 <div class="empty-message">
-                    لم تصل عروض بعد.
+                    Aucune offre reçue pour le moment.
                 </div>
-
             `;
         }
 
-
         const card =
-            document.createElement(
-                "div"
-            );
+            document.createElement("div");
 
-
-        card.className =
-            "request-card";
-
+        card.className = "request-card";
 
         card.innerHTML = `
-
             <h3>
                 🔧
-                ${escapeHTML(
-                    request.service
-                )}
+                ${escapeHTML(request.service)}
             </h3>
 
             <p>
-                ${escapeHTML(
-                    request.description
-                )}
+                ${escapeHTML(request.description)}
             </p>
-
 
             <div class="request-meta">
 
                 <span class="meta-item">
-
                     🏙️
                     ${escapeHTML(
                         request.wilaya ||
-                        "غير محددة"
+                        "Non définie"
                     )}
-
                 </span>
 
-
                 <span class="meta-item">
-
                     📍
-                    ${escapeHTML(
-                        request.location
-                    )}
-
+                    ${escapeHTML(request.location)}
                 </span>
 
-
                 <span class="meta-item">
-
                     📌
                     ${escapeHTML(
-                        request.status
+                        translateStatus(request.status)
                     )}
-
                 </span>
-
 
                 ${
                     request.budget
                         ? `
-
                         <span class="meta-item">
-
                             💰
                             ${Number(
                                 request.budget
-                            ).toLocaleString()}
+                            ).toLocaleString("fr-DZ")}
                             DA
-
                         </span>
-
                         `
                         : ""
                 }
 
             </div>
 
-
-            <h4
-                style="margin:20px 0 10px;">
-
-                💰 العروض
-
+            <h4 style="margin:20px 0 10px;">
+                💰 Offres reçues
             </h4>
 
-
             ${offersHTML}
-
         `;
 
-
-        container.appendChild(
-            card
-        );
+        container.appendChild(card);
     }
 }
 
@@ -1370,87 +1043,70 @@ async function loadWorkerDashboard() {
     if (
         !currentUser ||
         !currentProfile ||
-        currentProfile.role !==
-            "worker"
+        currentProfile.role !== "worker"
     ) {
-
         return;
     }
-
 
     const profileContainer =
         document.getElementById(
             "workerMiniProfile"
         );
 
-
     const requestsContainer =
         document.getElementById(
             "workerRequests"
         );
 
-
     const {
         average,
         completed
-    } =
-        await getWorkerStats(
-            currentUser.id
-        );
-
+    } = await getWorkerStats(
+        currentUser.id
+    );
 
     if (profileContainer) {
-
         profileContainer.innerHTML = `
-
             <h3>
                 👨‍🔧
-                ${escapeHTML(
-                    currentProfile.name
-                )}
+                ${escapeHTML(currentProfile.name)}
             </h3>
 
             <p>
-                🔧 التخصص:
-
+                🔧 Spécialité :
                 <strong>
                     ${escapeHTML(
                         currentProfile.speciality ||
-                        "غير محدد"
+                        "Non définie"
                     )}
                 </strong>
             </p>
 
             <p>
-                🏙️ الولاية:
-
+                🏙️ Wilaya :
                 <strong>
                     ${escapeHTML(
                         currentProfile.wilaya ||
-                        "غير محددة"
+                        "Non définie"
                     )}
                 </strong>
             </p>
 
             <p>
-                ⭐ التقييم:
-
+                ⭐ Évaluation :
                 <strong>
                     ${average.toFixed(1)} / 5
                 </strong>
             </p>
 
             <p>
-                ✅ الخدمات المكتملة:
-
+                ✅ Services terminés :
                 <strong>
                     ${completed}
                 </strong>
             </p>
-
         `;
     }
-
 
     let query =
         supabaseClient
@@ -1460,270 +1116,180 @@ async function loadWorkerDashboard() {
                 "service",
                 currentProfile.speciality
             )
-            .order(
-                "created_at",
-                {
-                    ascending: false
-                }
-            );
-
+            .order("created_at", {
+                ascending: false
+            });
 
     if (currentProfile.wilaya) {
-
-        query =
-            query.eq(
-                "wilaya",
-                currentProfile.wilaya
-            );
+        query = query.eq(
+            "wilaya",
+            currentProfile.wilaya
+        );
     }
-
 
     const {
         data: requests,
         error
     } = await query;
 
-
     if (error) {
-
         console.error(error);
 
         requestsContainer.innerHTML = `
-
             <div class="empty-message">
-                تعذر تحميل الطلبات.
+                Impossible de charger les demandes.
             </div>
-
         `;
 
         return;
     }
 
-
-    if (
-        !requests ||
-        requests.length === 0
-    ) {
-
+    if (!requests || requests.length === 0) {
         requestsContainer.innerHTML = `
-
             <div class="empty-message">
-                لا توجد طلبات مناسبة لتخصصك وولايتك حاليًا.
+                Aucune demande correspondant actuellement à votre spécialité et votre wilaya.
             </div>
-
         `;
 
         return;
     }
-
 
     requestsContainer.innerHTML = "";
 
-
-    for (
-        const request of requests
-    ) {
+    for (const request of requests) {
 
         const {
             data: customer
-        } =
-            await supabaseClient
-                .from("profiles")
-                .select(
-                    "id,name,phone"
-                )
-                .eq(
-                    "id",
-                    request.customer_id
-                )
-                .maybeSingle();
-
+        } = await supabaseClient
+            .from("profiles")
+            .select("id,name,phone")
+            .eq("id", request.customer_id)
+            .maybeSingle();
 
         const {
             data: myOffer
-        } =
-            await supabaseClient
-                .from("offers")
-                .select("id")
-                .eq(
-                    "request_id",
-                    request.id
-                )
-                .eq(
-                    "worker_id",
-                    currentUser.id
-                )
-                .maybeSingle();
-
+        } = await supabaseClient
+            .from("offers")
+            .select("id")
+            .eq("request_id", request.id)
+            .eq("worker_id", currentUser.id)
+            .maybeSingle();
 
         const card =
-            document.createElement(
-                "div"
-            );
+            document.createElement("div");
 
-
-        card.className =
-            "request-card";
-
+        card.className = "request-card";
 
         card.innerHTML = `
-
             <h3>
                 🔧
-                ${escapeHTML(
-                    request.service
-                )}
+                ${escapeHTML(request.service)}
             </h3>
 
             <p>
-                ${escapeHTML(
-                    request.description
-                )}
+                ${escapeHTML(request.description)}
             </p>
-
 
             <div class="request-meta">
 
                 <span class="meta-item">
-
                     🏙️
                     ${escapeHTML(
                         request.wilaya ||
-                        "غير محددة"
+                        "Non définie"
                     )}
-
                 </span>
-
 
                 <span class="meta-item">
-
                     📍
-                    ${escapeHTML(
-                        request.location
-                    )}
-
+                    ${escapeHTML(request.location)}
                 </span>
-
 
                 ${
                     request.budget
                         ? `
-
                         <span class="meta-item">
-
                             💰
                             ${Number(
                                 request.budget
-                            ).toLocaleString()}
+                            ).toLocaleString("fr-DZ")}
                             DA
-
                         </span>
-
                         `
                         : ""
                 }
 
-
                 <span class="meta-item">
-
                     📌
                     ${escapeHTML(
-                        request.status
+                        translateStatus(request.status)
                     )}
-
                 </span>
 
             </div>
 
-
             ${
                 customer
                     ? `
-
                     <p>
-                        👤 الزبون:
-                        ${escapeHTML(
-                            customer.name
-                        )}
+                        👤 Client :
+                        ${escapeHTML(customer.name)}
                     </p>
 
                     <p>
                         📞
-                        ${escapeHTML(
-                            customer.phone
-                        )}
+                        ${escapeHTML(customer.phone)}
                     </p>
-
                     `
                     : ""
             }
-
 
             <div class="worker-actions">
 
                 ${
                     myOffer
                         ? `
-
                         <button
                             class="chat-button"
                             onclick="openChatForRequest(
                                 ${request.id},
                                 '${request.customer_id}',
                                 '${customer
-                                    ? escapeHTML(
-                                        customer.name
-                                    )
-                                    : "الزبون"}'
+                                    ? escapeHTML(customer.name)
+                                    : "Client"}'
                             )">
-
-                            💬 مراسلة الزبون
-
+                            💬 Contacter le client
                         </button>
-
                         `
                         : ""
                 }
 
-
                 ${
                     !myOffer
                         ? `
-
                         <button
                             class="primary-btn"
                             onclick="openOfferModal(
                                 ${request.id}
                             )">
-
-                            💰 تقديم عرض
-
+                            💰 Envoyer une offre
                         </button>
-
                         `
                         : `
-
                         <button
                             class="secondary-btn"
                             onclick="showMessage(
-                                'لقد قدمت عرضًا لهذا الطلب بالفعل.'
+                                'Vous avez déjà envoyé une offre pour cette demande.'
                             )">
-
-                            ✅ تم تقديم العرض
-
+                            ✅ Offre déjà envoyée
                         </button>
-
                         `
                 }
 
             </div>
-
         `;
 
-
-        requestsContainer.appendChild(
-            card
-        );
+        requestsContainer.appendChild(card);
     }
 }
 
@@ -1732,157 +1298,106 @@ async function loadWorkerDashboard() {
 // OFFERS
 // =====================================================
 
-function openOfferModal(
-    requestId
-) {
+function openOfferModal(requestId) {
 
     if (
         !currentUser ||
-        currentProfile?.role !==
-            "worker"
+        currentProfile?.role !== "worker"
     ) {
-
         showMessage(
-            "هذه الخاصية للحرفيين فقط."
+            "Cette fonctionnalité est réservée aux prestataires."
         );
 
         return;
     }
 
-
     document
-        .getElementById(
-            "offerRequestId"
-        )
+        .getElementById("offerRequestId")
         .value = requestId;
 
-
-    openModal(
-        "offerModal"
-    );
+    openModal("offerModal");
 }
 
 
 document
     .getElementById("offerForm")
-    ?.addEventListener(
-        "submit",
-        async function (event) {
+    ?.addEventListener("submit", async function (event) {
 
-            event.preventDefault();
+        event.preventDefault();
 
+        if (!currentUser) return;
 
-            if (!currentUser) return;
-
-
-            const requestId =
-                Number(
-                    document
-                        .getElementById(
-                            "offerRequestId"
-                        )
-                        .value
-                );
-
-
-            const price =
-                Number(
-                    document
-                        .getElementById(
-                            "offerPrice"
-                        )
-                        .value
-                );
-
-
-            const message =
+        const requestId =
+            Number(
                 document
-                    .getElementById(
-                        "offerMessage"
-                    )
+                    .getElementById("offerRequestId")
                     .value
-                    .trim();
-
-
-            if (
-                !Number.isFinite(price) ||
-                price < 0
-            ) {
-
-                showMessage(
-                    "أدخل سعرًا صحيحًا."
-                );
-
-                return;
-            }
-
-
-            const {
-                error
-            } =
-                await supabaseClient
-                    .from("offers")
-                    .insert({
-
-                        request_id:
-                            requestId,
-
-                        worker_id:
-                            currentUser.id,
-
-                        price,
-
-                        message
-                    });
-
-
-            if (error) {
-
-                console.error(error);
-
-
-                if (
-                    error.code ===
-                    "23505"
-                ) {
-
-                    showMessage(
-                        "لقد قدمت عرضًا لهذا الطلب من قبل."
-                    );
-
-                } else {
-
-                    showMessage(
-                        "تعذر إرسال العرض:\n" +
-                        error.message
-                    );
-                }
-
-
-                return;
-            }
-
-
-            closeModal(
-                "offerModal"
             );
 
+        const price =
+            Number(
+                document
+                    .getElementById("offerPrice")
+                    .value
+            );
 
+        const message =
             document
-                .getElementById(
-                    "offerForm"
-                )
-                .reset();
+                .getElementById("offerMessage")
+                .value
+                .trim();
 
-
+        if (
+            !Number.isFinite(price) ||
+            price < 0
+        ) {
             showMessage(
-                "تم إرسال عرضك بنجاح 💰"
+                "Veuillez saisir un prix valide."
             );
 
-
-            await loadWorkerDashboard();
+            return;
         }
-    );
+
+        const {
+            error
+        } = await supabaseClient
+            .from("offers")
+            .insert({
+                request_id: requestId,
+                worker_id: currentUser.id,
+                price,
+                message
+            });
+
+        if (error) {
+            console.error(error);
+
+            if (error.code === "23505") {
+                showMessage(
+                    "Vous avez déjà envoyé une offre pour cette demande."
+                );
+            } else {
+                showMessage(
+                    "Impossible d'envoyer l'offre :\n" +
+                    error.message
+                );
+            }
+
+            return;
+        }
+
+        closeModal("offerModal");
+
+        document
+            .getElementById("offerForm")
+            .reset();
+
+        showMessage(
+            "Votre offre a été envoyée avec succès 💰"
+        );
+
+        await loadWorkerDashboard();
+    });
 
 
 // =====================================================
@@ -1896,86 +1411,52 @@ async function completeRequest(
 
     if (!currentUser) return;
 
-
     const confirmed =
         confirm(
-            "هل تريد اختيار هذا الحرفي وإنهاء الطلب؟"
+            "Voulez-vous choisir ce prestataire et terminer la demande ?"
         );
-
 
     if (!confirmed) return;
 
-
     const {
         error
-    } =
-        await supabaseClient
-            .from("requests")
-            .update({
-
-                status: "مكتمل",
-
-                selected_worker_id:
-                    workerId
-
-            })
-            .eq(
-                "id",
-                requestId
-            )
-            .eq(
-                "customer_id",
-                currentUser.id
-            );
-
+    } = await supabaseClient
+        .from("requests")
+        .update({
+            status: "مكتمل",
+            selected_worker_id: workerId
+        })
+        .eq("id", requestId)
+        .eq("customer_id", currentUser.id);
 
     if (error) {
-
         console.error(error);
 
         showMessage(
-            "تعذر إنهاء الطلب:\n" +
+            "Impossible de terminer la demande :\n" +
             error.message
         );
 
         return;
     }
 
+    document
+        .getElementById("ratingRequestId")
+        .value = requestId;
 
     document
-        .getElementById(
-            "ratingRequestId"
-        )
-        .value =
-        requestId;
-
-
-    document
-        .getElementById(
-            "ratingWorkerId"
-        )
-        .value =
-        workerId;
-
+        .getElementById("ratingWorkerId")
+        .value = workerId;
 
     selectedRating = 5;
 
-
     document
-        .getElementById(
-            "ratingStars"
-        )
-        .value =
-        "5";
-
+        .getElementById("ratingStars")
+        .value = "5";
 
     setRating(5);
 
-
-    openModal(
-        "ratingModal"
-    );
-
+    openModal("ratingModal");
 
     await loadCustomerRequests();
 }
@@ -1985,39 +1466,26 @@ async function completeRequest(
 // RATING
 // =====================================================
 
-function setRating(
-    stars
-) {
+function setRating(stars) {
 
-    selectedRating =
-        stars;
-
+    selectedRating = stars;
 
     const input =
         document.getElementById(
             "ratingStars"
         );
 
-
     if (input) {
-
-        input.value =
-            stars;
+        input.value = stars;
     }
-
 
     const buttons =
         document.querySelectorAll(
             ".stars-input button"
         );
 
-
     buttons.forEach(
-        (
-            button,
-            index
-        ) => {
-
+        (button, index) => {
             button.style.opacity =
                 index < stars
                     ? "1"
@@ -2029,155 +1497,99 @@ function setRating(
 
 document
     .getElementById("ratingForm")
-    ?.addEventListener(
-        "submit",
-        async function (event) {
+    ?.addEventListener("submit", async function (event) {
 
-            event.preventDefault();
+        event.preventDefault();
 
+        if (!currentUser) return;
 
-            if (!currentUser) return;
-
-
-            const requestId =
-                Number(
-                    document
-                        .getElementById(
-                            "ratingRequestId"
-                        )
-                        .value
-                );
-
-
-            const workerId =
+        const requestId =
+            Number(
                 document
-                    .getElementById(
-                        "ratingWorkerId"
-                    )
-                    .value;
-
-
-            const stars =
-                Number(
-                    document
-                        .getElementById(
-                            "ratingStars"
-                        )
-                        .value
-                );
-
-
-            const comment =
-                document
-                    .getElementById(
-                        "ratingComment"
-                    )
+                    .getElementById("ratingRequestId")
                     .value
-                    .trim();
+            );
 
+        const workerId =
+            document
+                .getElementById("ratingWorkerId")
+                .value;
 
-            const {
-                error
-            } =
-                await supabaseClient
-                    .from("ratings")
-                    .insert({
+        const stars =
+            Number(
+                document
+                    .getElementById("ratingStars")
+                    .value
+            );
 
-                        request_id:
-                            requestId,
+        const comment =
+            document
+                .getElementById("ratingComment")
+                .value
+                .trim();
 
-                        customer_id:
-                            currentUser.id,
+        const {
+            error
+        } = await supabaseClient
+            .from("ratings")
+            .insert({
+                request_id: requestId,
+                customer_id: currentUser.id,
+                worker_id: workerId,
+                stars,
+                comment
+            });
 
-                        worker_id:
-                            workerId,
+        if (error) {
+            console.error(error);
 
-                        stars,
-
-                        comment
-
-                    });
-
-
-            if (error) {
-
-                console.error(error);
-
-
-                if (
-                    error.code ===
-                    "23505"
-                ) {
-
-                    showMessage(
-                        "لقد قيّمت هذا الطلب من قبل."
-                    );
-
-                } else {
-
-                    showMessage(
-                        "تعذر إرسال التقييم:\n" +
-                        error.message
-                    );
-                }
-
-
-                return;
+            if (error.code === "23505") {
+                showMessage(
+                    "Vous avez déjà évalué cette demande."
+                );
+            } else {
+                showMessage(
+                    "Impossible d'envoyer l'évaluation :\n" +
+                    error.message
+                );
             }
 
-
-            closeModal(
-                "ratingModal"
-            );
-
-
-            document
-                .getElementById(
-                    "ratingForm"
-                )
-                .reset();
-
-
-            setRating(5);
-
-
-            showMessage(
-                "شكرًا على تقييمك ⭐"
-            );
-
-
-            await loadCustomerRequests();
-
-            await loadWorkers();
+            return;
         }
-    );
+
+        closeModal("ratingModal");
+
+        document
+            .getElementById("ratingForm")
+            .reset();
+
+        setRating(5);
+
+        showMessage(
+            "Merci pour votre évaluation ⭐"
+        );
+
+        await loadCustomerRequests();
+        await loadWorkers();
+    });
 
 
 // =====================================================
 // WORKER STATS
 // =====================================================
 
-async function getWorkerStats(
-    workerId
-) {
+async function getWorkerStats(workerId) {
 
     let average = 0;
-
     let completed = 0;
-
 
     const {
         data: ratings,
         error: ratingsError
-    } =
-        await supabaseClient
-            .from("ratings")
-            .select("stars")
-            .eq(
-                "worker_id",
-                workerId
-            );
-
+    } = await supabaseClient
+        .from("ratings")
+        .select("stars")
+        .eq("worker_id", workerId);
 
     if (
         !ratingsError &&
@@ -2187,55 +1599,30 @@ async function getWorkerStats(
 
         const total =
             ratings.reduce(
-                (
-                    sum,
-                    rating
-                ) =>
-                    sum +
-                    Number(
-                        rating.stars
-                    ),
+                (sum, rating) =>
+                    sum + Number(rating.stars),
                 0
             );
 
-
         average =
-            total /
-            ratings.length;
+            total / ratings.length;
     }
-
 
     const {
         count,
         error: completedError
-    } =
-        await supabaseClient
-            .from("requests")
-            .select(
-                "id",
-                {
-                    count:
-                        "exact",
-                    head:
-                        true
-                }
-            )
-            .eq(
-                "selected_worker_id",
-                workerId
-            )
-            .eq(
-                "status",
-                "مكتمل"
-            );
-
+    } = await supabaseClient
+        .from("requests")
+        .select("id", {
+            count: "exact",
+            head: true
+        })
+        .eq("selected_worker_id", workerId)
+        .eq("status", "مكتمل");
 
     if (!completedError) {
-
-        completed =
-            count || 0;
+        completed = count || 0;
     }
-
 
     return {
         average,
@@ -2255,9 +1642,7 @@ async function loadWorkers() {
             "workersList"
         );
 
-
     if (!container) return;
-
 
     const wilayaFilter =
         normalizeWilaya(
@@ -2268,60 +1653,41 @@ async function loadWorkers() {
                 ?.value
         );
 
-
     const specialityFilter =
         document
             .getElementById(
                 "workerSpecialityFilter"
             )
-            ?.value ||
-        "";
-
+            ?.value || "";
 
     const {
         data: workers,
         error
-    } =
-        await supabaseClient
-            .from("profiles")
-            .select(
-                "id,name,phone,role,speciality,wilaya,created_at"
-            )
-            .eq(
-                "role",
-                "worker"
-            )
-            .order(
-                "created_at",
-                {
-                    ascending:
-                        false
-                }
-            );
-
+    } = await supabaseClient
+        .from("profiles")
+        .select(
+            "id,name,phone,role,speciality,wilaya,created_at"
+        )
+        .eq("role", "worker")
+        .order("created_at", {
+            ascending: false
+        });
 
     if (error) {
-
         console.error(error);
 
         container.innerHTML = `
-
             <div class="empty-message">
-                يجب تسجيل الدخول لعرض الحرفيين.
+                Connectez-vous pour voir les prestataires.
             </div>
-
         `;
 
         return;
     }
 
-
-    let filteredWorkers =
-        workers || [];
-
+    let filteredWorkers = workers || [];
 
     if (wilayaFilter) {
-
         filteredWorkers =
             filteredWorkers.filter(
                 worker => {
@@ -2331,7 +1697,6 @@ async function loadWorkers() {
                             worker.wilaya
                         );
 
-
                     return workerWilaya.includes(
                         wilayaFilter
                     );
@@ -2339,9 +1704,7 @@ async function loadWorkers() {
             );
     }
 
-
     if (specialityFilter) {
-
         filteredWorkers =
             filteredWorkers.filter(
                 worker =>
@@ -2350,26 +1713,19 @@ async function loadWorkers() {
             );
     }
 
-
     if (
-        filteredWorkers.length ===
-        0
+        filteredWorkers.length === 0
     ) {
-
         container.innerHTML = `
-
             <div class="empty-message">
-                لا يوجد حرفيون مطابقون للفلاتر الحالية.
+                Aucun prestataire ne correspond aux filtres actuels.
             </div>
-
         `;
 
         return;
     }
 
-
     container.innerHTML = "";
-
 
     for (
         const worker of filteredWorkers
@@ -2378,60 +1734,44 @@ async function loadWorkers() {
         const {
             average,
             completed
-        } =
-            await getWorkerStats(
-                worker.id
-            );
-
+        } = await getWorkerStats(
+            worker.id
+        );
 
         const card =
             document.createElement(
                 "div"
             );
 
-
         card.className =
             "worker-card";
 
-
         card.innerHTML = `
-
             <div class="worker-avatar">
                 👨‍🔧
             </div>
 
-
             <h3>
-                ${escapeHTML(
-                    worker.name
-                )}
+                ${escapeHTML(worker.name)}
             </h3>
 
-
             <div class="worker-speciality">
-
                 🔧
                 ${escapeHTML(
                     worker.speciality ||
-                    "حرفي"
+                    "Prestataire"
                 )}
-
             </div>
 
-
             <div class="worker-location">
-
                 🏙️
                 ${escapeHTML(
                     worker.wilaya ||
-                    "الولاية غير محددة"
+                    "Wilaya non définie"
                 )}
-
             </div>
 
-
             <div class="worker-rating">
-
                 ⭐
                 ${average.toFixed(1)}
 
@@ -2439,10 +1779,8 @@ async function loadWorkers() {
 
                 ✅
                 ${completed}
-                خدمة
-
+                service(s)
             </div>
-
 
             <div class="worker-actions">
 
@@ -2451,19 +1789,13 @@ async function loadWorkers() {
                     onclick="openWorkerProfile(
                         '${worker.id}'
                     )">
-
-                    👤 الملف
-
+                    👤 Profil
                 </button>
 
             </div>
-
         `;
 
-
-        container.appendChild(
-            card
-        );
+        container.appendChild(card);
     }
 }
 
@@ -2473,9 +1805,7 @@ async function loadWorkers() {
 // =====================================================
 
 document
-    .getElementById(
-        "workerWilayaFilter"
-    )
+    .getElementById("workerWilayaFilter")
     ?.addEventListener(
         "input",
         loadWorkers
@@ -2483,9 +1813,7 @@ document
 
 
 document
-    .getElementById(
-        "workerSpecialityFilter"
-    )
+    .getElementById("workerSpecialityFilter")
     ?.addEventListener(
         "change",
         loadWorkers
@@ -2499,24 +1827,18 @@ function clearWorkerFilters() {
             "workerWilayaFilter"
         );
 
-
     const speciality =
         document.getElementById(
             "workerSpecialityFilter"
         );
 
-
     if (wilaya) {
-
         wilaya.value = "";
     }
 
-
     if (speciality) {
-
         speciality.value = "";
     }
-
 
     loadWorkers();
 }
@@ -2535,71 +1857,47 @@ async function openWorkerProfile(
             "profileContent"
         );
 
-
     if (!content) return;
-
 
     const {
         data: worker,
         error
-    } =
-        await supabaseClient
-            .from("profiles")
-            .select(
-                "id,name,phone,speciality,wilaya,role"
-            )
-            .eq(
-                "id",
-                workerId
-            )
-            .maybeSingle();
+    } = await supabaseClient
+        .from("profiles")
+        .select(
+            "id,name,phone,speciality,wilaya,role"
+        )
+        .eq("id", workerId)
+        .maybeSingle();
 
-
-    if (
-        error ||
-        !worker
-    ) {
-
+    if (error || !worker) {
         showMessage(
-            "تعذر تحميل ملف الحرفي."
+            "Impossible de charger le profil du prestataire."
         );
 
         return;
     }
 
-
     const {
         average,
         completed
-    } =
-        await getWorkerStats(
-            workerId
-        );
-
+    } = await getWorkerStats(
+        workerId
+    );
 
     const {
         data: ratings
-    } =
-        await supabaseClient
-            .from("ratings")
-            .select(
-                "stars,comment,created_at,customer_id"
-            )
-            .eq(
-                "worker_id",
-                workerId
-            )
-            .order(
-                "created_at",
-                {
-                    ascending:
-                        false
-                }
-            );
-
+    } = await supabaseClient
+        .from("ratings")
+        .select(
+            "stars,comment,created_at,customer_id"
+        )
+        .eq("worker_id", workerId)
+        .order("created_at", {
+            ascending: false
+        });
 
     let ratingsHTML = "";
-
 
     if (
         ratings &&
@@ -2607,190 +1905,136 @@ async function openWorkerProfile(
     ) {
 
         for (
-            const rating of
-            ratings.slice(0, 10)
+            const rating of ratings.slice(0, 10)
         ) {
 
             const {
                 data: customer
-            } =
-                await supabaseClient
-                    .from("profiles")
-                    .select("name")
-                    .eq(
-                        "id",
-                        rating.customer_id
-                    )
-                    .maybeSingle();
-
+            } = await supabaseClient
+                .from("profiles")
+                .select("name")
+                .eq(
+                    "id",
+                    rating.customer_id
+                )
+                .maybeSingle();
 
             ratingsHTML += `
-
                 <div class="offer-card">
 
                     <strong>
-
                         ${
                             customer
                                 ? escapeHTML(
                                     customer.name
                                 )
-                                : "زبون"
+                                : "Client"
                         }
-
                     </strong>
 
-
                     <div>
-
-                        ⭐
-                        ${rating.stars}/5
-
+                        ⭐ ${rating.stars}/5
                     </div>
-
 
                     ${
                         rating.comment
                             ? `
-
                             <p>
                                 ${escapeHTML(
                                     rating.comment
                                 )}
                             </p>
-
                             `
                             : ""
                     }
 
                 </div>
-
             `;
         }
 
     } else {
 
         ratingsHTML = `
-
             <div class="empty-message">
-                لا توجد تقييمات بعد.
+                Aucune évaluation pour le moment.
             </div>
-
         `;
     }
 
-
     content.innerHTML = `
-
         <div class="worker-avatar">
             👨‍🔧
         </div>
 
-
         <h2>
-            ${escapeHTML(
-                worker.name
-            )}
+            ${escapeHTML(worker.name)}
         </h2>
 
-
         <p class="worker-speciality">
-
             🔧
             ${escapeHTML(
                 worker.speciality ||
-                "حرفي"
+                "Prestataire"
             )}
-
         </p>
 
-
         <p class="worker-location">
-
             🏙️
             ${escapeHTML(
                 worker.wilaya ||
-                "غير محددة"
+                "Non définie"
             )}
-
         </p>
-
 
         <p>
-
             📞
-            ${escapeHTML(
-                worker.phone || ""
-            )}
-
+            ${escapeHTML(worker.phone || "")}
         </p>
-
 
         <div class="request-meta">
 
             <span class="meta-item">
-
                 ⭐
                 ${average.toFixed(1)}
                 / 5
-
             </span>
 
-
             <span class="meta-item">
-
                 ✅
                 ${completed}
-                خدمة مكتملة
-
+                service(s) terminé(s)
             </span>
 
         </div>
 
-
         ${
             currentUser &&
             currentProfile &&
-            currentProfile.role ===
-                "customer"
+            currentProfile.role === "customer"
                 ? `
-
-                <div
-                    style="margin-top:15px;">
+                <div style="margin-top:15px;">
 
                     <button
                         class="chat-button"
                         onclick="showMessage(
-                            'للمراسلة، افتح أحد عروض هذا الحرفي من طلباتك.'
+                            'Pour contacter ce prestataire, ouvrez une de ses offres depuis vos demandes.'
                         )">
-
-                        💬 مراسلة
-
+                        💬 Contacter
                     </button>
 
                 </div>
-
                 `
                 : ""
         }
 
-
-        <h3
-            style="margin:20px 0 10px;">
-
-            ⭐ آراء الزبائن
-
+        <h3 style="margin:20px 0 10px;">
+            ⭐ Avis des clients
         </h3>
 
-
         ${ratingsHTML}
-
     `;
 
-
-    openModal(
-        "profileModal"
-    );
+    openModal("profileModal");
 }
 
 
@@ -2801,7 +2045,6 @@ async function openWorkerProfile(
 async function openMyProfile() {
 
     if (!currentUser) return;
-
 
     await openWorkerProfile(
         currentUser.id
@@ -2814,9 +2057,7 @@ async function openMyProfile() {
 // =====================================================
 
 document
-    .getElementById(
-        "searchInput"
-    )
+    .getElementById("searchInput")
     ?.addEventListener(
         "input",
         function () {
@@ -2826,28 +2067,22 @@ document
                     .trim()
                     .toLowerCase();
 
-
             document
                 .querySelectorAll(
                     ".service-card"
                 )
-                .forEach(
-                    card => {
+                .forEach(card => {
 
-                        const service =
-                            card.dataset
-                                .service
-                                .toLowerCase();
+                    const service =
+                        card.dataset
+                            .service
+                            .toLowerCase();
 
-
-                        card.style.display =
-                            service.includes(
-                                search
-                            )
-                                ? ""
-                                : "none";
-                    }
-                );
+                    card.style.display =
+                        service.includes(search)
+                            ? ""
+                            : "none";
+                });
         }
     );
 
@@ -2862,66 +2097,48 @@ async function getOrCreateConversation(
 ) {
 
     if (!currentUser) {
-
         showMessage(
-            "يجب تسجيل الدخول أولًا."
+            "Vous devez d'abord vous connecter."
         );
 
         return null;
     }
 
-
     const {
         data: request,
         error: requestError
-    } =
-        await supabaseClient
-            .from("requests")
-            .select(
-                "id,customer_id"
-            )
-            .eq(
-                "id",
-                requestId
-            )
-            .maybeSingle();
-
+    } = await supabaseClient
+        .from("requests")
+        .select("id,customer_id")
+        .eq("id", requestId)
+        .maybeSingle();
 
     if (
         requestError ||
         !request
     ) {
-
-        console.error(
-            requestError
-        );
+        console.error(requestError);
 
         showMessage(
-            "تعذر العثور على الطلب."
+            "Impossible de trouver la demande."
         );
 
         return null;
     }
 
-
     let customerId;
-
     let workerId;
-
 
     if (
         currentProfile?.role ===
         "customer"
     ) {
-
         customerId =
             currentUser.id;
 
         workerId =
             otherUserId;
-
     } else {
-
         customerId =
             request.customer_id;
 
@@ -2929,113 +2146,80 @@ async function getOrCreateConversation(
             currentUser.id;
     }
 
-
     const {
         data: existing,
         error: existingError
-    } =
-        await supabaseClient
-            .from("conversations")
-            .select("*")
-            .eq(
-                "request_id",
-                requestId
-            )
-            .eq(
-                "worker_id",
-                workerId
-            )
-            .maybeSingle();
-
+    } = await supabaseClient
+        .from("conversations")
+        .select("*")
+        .eq(
+            "request_id",
+            requestId
+        )
+        .eq(
+            "worker_id",
+            workerId
+        )
+        .maybeSingle();
 
     if (existingError) {
-
-        console.error(
-            existingError
-        );
+        console.error(existingError);
 
         showMessage(
-            "تعذر تحميل المحادثة."
+            "Impossible de charger la conversation."
         );
 
         return null;
     }
 
-
     if (existing) {
-
         return existing;
     }
-
 
     const {
         data: conversation,
         error: insertError
-    } =
-        await supabaseClient
-            .from("conversations")
-            .insert({
-
-                request_id:
-                    requestId,
-
-                customer_id:
-                    customerId,
-
-                worker_id:
-                    workerId
-
-            })
-            .select("*")
-            .single();
-
+    } = await supabaseClient
+        .from("conversations")
+        .insert({
+            request_id: requestId,
+            customer_id: customerId,
+            worker_id: workerId
+        })
+        .select("*")
+        .single();
 
     if (insertError) {
 
-        if (
-            insertError.code ===
-            "23505"
-        ) {
+        if (insertError.code === "23505") {
 
             const {
-                data:
-                    retryConversation
-            } =
-                await supabaseClient
-                    .from("conversations")
-                    .select("*")
-                    .eq(
-                        "request_id",
-                        requestId
-                    )
-                    .eq(
-                        "worker_id",
-                        workerId
-                    )
-                    .maybeSingle();
+                data: retryConversation
+            } = await supabaseClient
+                .from("conversations")
+                .select("*")
+                .eq(
+                    "request_id",
+                    requestId
+                )
+                .eq(
+                    "worker_id",
+                    workerId
+                )
+                .maybeSingle();
 
-
-            return (
-                retryConversation ||
-                null
-            );
+            return retryConversation || null;
         }
 
-
-        console.error(
-            insertError
-        );
-
+        console.error(insertError);
 
         showMessage(
-            "تعذر إنشاء المحادثة:\n" +
+            "Impossible de créer la conversation :\n" +
             insertError.message
         );
 
-
         return null;
     }
-
 
     return conversation;
 }
@@ -3048,9 +2232,8 @@ async function openChatForRequest(
 ) {
 
     if (!currentUser) {
-
         showMessage(
-            "يجب تسجيل الدخول أولًا."
+            "Vous devez d'abord vous connecter."
         );
 
         openAccountModal();
@@ -3058,80 +2241,56 @@ async function openChatForRequest(
         return;
     }
 
-
     const conversation =
         await getOrCreateConversation(
             requestId,
             otherUserId
         );
 
-
     if (!conversation) return;
-
 
     currentConversationId =
         conversation.id;
-
 
     const personNameElement =
         document.getElementById(
             "chatPersonName"
         );
 
-
     if (personNameElement) {
-
         personNameElement.textContent =
             personName ||
-            "المحادثة";
+            "Conversation";
     }
-
 
     const messagesContainer =
         document.getElementById(
             "chatMessages"
         );
 
-
     if (messagesContainer) {
-
         messagesContainer.innerHTML = `
-
             <div class="chat-loading">
-                جاري تحميل الرسائل...
+                Chargement des messages...
             </div>
-
         `;
     }
 
-
-    openModal(
-        "chatModal"
-    );
-
+    openModal("chatModal");
 
     await loadChatMessages(
         currentConversationId
     );
 
-
     subscribeToChat(
         currentConversationId
     );
 
-
-    setTimeout(
-        () => {
-
-            document
-                .getElementById(
-                    "chatInput"
-                )
-                ?.focus();
-
-        },
-        100
-    );
+    setTimeout(() => {
+        document
+            .getElementById("chatInput")
+            ?.focus();
+    }, 100);
 }
 
 
@@ -3144,127 +2303,91 @@ async function loadChatMessages(
             "chatMessages"
         );
 
-
     if (!container) return;
-
 
     const {
         data: messages,
         error
-    } =
-        await supabaseClient
-            .from("messages")
-            .select(
-                "id,sender_id,message,created_at"
-            )
-            .eq(
-                "conversation_id",
-                conversationId
-            )
-            .order(
-                "created_at",
-                {
-                    ascending:
-                        true
-                }
-            );
-
+    } = await supabaseClient
+        .from("messages")
+        .select(
+            "id,sender_id,message,created_at"
+        )
+        .eq(
+            "conversation_id",
+            conversationId
+        )
+        .order("created_at", {
+            ascending: true
+        });
 
     if (error) {
-
         console.error(error);
 
         container.innerHTML = `
-
             <div class="chat-empty">
-                تعذر تحميل الرسائل.
+                Impossible de charger les messages.
             </div>
-
         `;
 
         return;
     }
-
 
     if (
         !messages ||
         messages.length === 0
     ) {
-
         container.innerHTML = `
-
             <div class="chat-empty">
-                لا توجد رسائل بعد 👋
+                Aucun message pour le moment 👋
             </div>
-
         `;
 
         return;
     }
 
-
     container.innerHTML = "";
 
-
-    messages.forEach(
-        message => {
-
-            appendChatMessage(
-                message
-            );
-        }
-    );
-
+    messages.forEach(message => {
+        appendChatMessage(message);
+    });
 
     scrollChatToBottom();
 }
 
 
-function appendChatMessage(
-    message
-) {
+function appendChatMessage(message) {
 
     const container =
         document.getElementById(
             "chatMessages"
         );
 
-
     if (!container) return;
-
 
     const empty =
         container.querySelector(
             ".chat-empty"
         );
 
-
     if (empty) {
-
         empty.remove();
     }
-
 
     if (
         container.querySelector(
             `[data-message-id="${message.id}"]`
         )
     ) {
-
         return;
     }
-
 
     const isMine =
         message.sender_id ===
         currentUser?.id;
 
-
     const messageElement =
-        document.createElement(
-            "div"
-        );
-
+        document.createElement("div");
 
     messageElement.className =
         `chat-message ${
@@ -3273,56 +2396,34 @@ function appendChatMessage(
                 : "theirs"
         }`;
 
-
     messageElement.dataset.messageId =
         message.id;
 
-
     const date =
-        new Date(
-            message.created_at
-        );
-
+        new Date(message.created_at);
 
     const time =
         date.toLocaleTimeString(
-            "ar-DZ",
+            "fr-DZ",
             {
-
-                hour:
-                    "2-digit",
-
-                minute:
-                    "2-digit"
-
+                hour: "2-digit",
+                minute: "2-digit"
             }
         );
 
-
     messageElement.innerHTML = `
-
         <p class="chat-message-text">
-
-            ${escapeHTML(
-                message.message
-            )}
-
+            ${escapeHTML(message.message)}
         </p>
 
-
         <span class="chat-message-time">
-
             ${time}
-
         </span>
-
     `;
-
 
     container.appendChild(
         messageElement
     );
-
 
     scrollChatToBottom();
 }
@@ -3335,9 +2436,7 @@ function scrollChatToBottom() {
             "chatMessages"
         );
 
-
     if (!container) return;
-
 
     container.scrollTop =
         container.scrollHeight;
@@ -3348,19 +2447,13 @@ function subscribeToChat(
     conversationId
 ) {
 
-    if (
-        currentChatChannel
-    ) {
+    if (currentChatChannel) {
+        supabaseClient.removeChannel(
+            currentChatChannel
+        );
 
-        supabaseClient
-            .removeChannel(
-                currentChatChannel
-            );
-
-        currentChatChannel =
-            null;
+        currentChatChannel = null;
     }
-
 
     currentChatChannel =
         supabaseClient
@@ -3370,19 +2463,11 @@ function subscribeToChat(
             .on(
                 "postgres_changes",
                 {
-
-                    event:
-                        "INSERT",
-
-                    schema:
-                        "public",
-
-                    table:
-                        "messages",
-
+                    event: "INSERT",
+                    schema: "public",
+                    table: "messages",
                     filter:
                         `conversation_id=eq.${conversationId}`
-
                 },
                 payload => {
 
@@ -3390,7 +2475,6 @@ function subscribeToChat(
                         currentConversationId ===
                         conversationId
                     ) {
-
                         appendChatMessage(
                             payload.new
                         );
@@ -3399,7 +2483,6 @@ function subscribeToChat(
             )
             .subscribe(
                 status => {
-
                     console.log(
                         "Chat realtime:",
                         status
@@ -3410,107 +2493,80 @@ function subscribeToChat(
 
 
 document
-    .getElementById(
-        "chatForm"
-    )
+    .getElementById("chatForm")
     ?.addEventListener(
         "submit",
         async function (event) {
 
             event.preventDefault();
 
-
             if (
                 !currentUser ||
                 !currentConversationId
             ) {
-
                 showMessage(
-                    "لا توجد محادثة مفتوحة."
+                    "Aucune conversation ouverte."
                 );
 
                 return;
             }
-
 
             const input =
                 document.getElementById(
                     "chatInput"
                 );
 
-
             const button =
                 this.querySelector(
                     "button[type='submit']"
                 );
 
-
             if (!input) return;
-
 
             const message =
                 input.value.trim();
 
-
             if (!message) return;
 
-
             if (button) {
-
-                button.disabled =
-                    true;
+                button.disabled = true;
             }
-
 
             const {
                 data,
                 error
-            } =
-                await supabaseClient
-                    .from("messages")
-                    .insert({
+            } = await supabaseClient
+                .from("messages")
+                .insert({
+                    conversation_id:
+                        currentConversationId,
 
-                        conversation_id:
-                            currentConversationId,
+                    sender_id:
+                        currentUser.id,
 
-                        sender_id:
-                            currentUser.id,
-
-                        message
-
-                    })
-                    .select(
-                        "id,sender_id,message,created_at"
-                    )
-                    .single();
-
+                    message
+                })
+                .select(
+                    "id,sender_id,message,created_at"
+                )
+                .single();
 
             if (error) {
-
                 console.error(error);
 
                 showMessage(
-                    "تعذر إرسال الرسالة:\n" +
+                    "Impossible d'envoyer le message :\n" +
                     error.message
                 );
-
             } else {
-
                 input.value = "";
 
-
-                appendChatMessage(
-                    data
-                );
+                appendChatMessage(data);
             }
-
 
             if (button) {
-
-                button.disabled =
-                    false;
+                button.disabled = false;
             }
-
 
             input.focus();
         }
@@ -3519,37 +2575,24 @@ document
 
 async function closeChat() {
 
-    currentConversationId =
-        null;
+    currentConversationId = null;
 
+    if (currentChatChannel) {
+        await supabaseClient.removeChannel(
+            currentChatChannel
+        );
 
-    if (
-        currentChatChannel
-    ) {
-
-        await supabaseClient
-            .removeChannel(
-                currentChatChannel
-            );
-
-        currentChatChannel =
-            null;
+        currentChatChannel = null;
     }
 
-
-    closeModal(
-        "chatModal"
-    );
-
+    closeModal("chatModal");
 
     const input =
         document.getElementById(
             "chatInput"
         );
 
-
     if (input) {
-
         input.value = "";
     }
 }
@@ -3559,12 +2602,9 @@ async function closeChat() {
 // NOTIFICATIONS
 // =====================================================
 
-function getNotificationIcon(
-    type
-) {
+function getNotificationIcon(type) {
 
     switch (type) {
-
         case "offer":
             return "💰";
 
@@ -3592,27 +2632,17 @@ function formatNotificationTime(
 
     if (!createdAt) return "";
 
-
     const date =
-        new Date(
-            createdAt
-        );
-
+        new Date(createdAt);
 
     return date.toLocaleString(
-        "ar-DZ",
+        "fr-DZ",
         {
-
             day: "2-digit",
-
             month: "2-digit",
-
             year: "numeric",
-
             hour: "2-digit",
-
             minute: "2-digit"
-
         }
     );
 }
@@ -3627,78 +2657,52 @@ function updateNotificationBadge(
             "notificationBadge"
         );
 
-
     if (!badge) return;
-
 
     const safeCount =
         Number(count) || 0;
 
-
     if (safeCount <= 0) {
-
-        badge.classList.add(
-            "hidden"
-        );
-
-        badge.textContent =
-            "0";
-
+        badge.classList.add("hidden");
+        badge.textContent = "0";
         return;
     }
 
-
-    badge.classList.remove(
-        "hidden"
-    );
-
+    badge.classList.remove("hidden");
 
     badge.textContent =
         safeCount > 99
             ? "99+"
-            : String(
-                safeCount
-            );
+            : String(safeCount);
 }
 
 
 async function loadNotificationCount() {
 
     if (!currentUser) {
-
         updateNotificationBadge(0);
-
         return;
     }
-
 
     const {
         count,
         error
-    } =
-        await supabaseClient
-            .from("notifications")
-            .select(
-                "id",
-                {
-                    count:
-                        "exact",
-                    head:
-                        true
-                }
-            )
-            .eq(
-                "user_id",
-                currentUser.id
-            )
-            .eq(
-                "is_read",
-                false
-            );
-
+    } = await supabaseClient
+        .from("notifications")
+        .select("id", {
+            count: "exact",
+            head: true
+        })
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+        .eq(
+            "is_read",
+            false
+        );
 
     if (error) {
-
         console.error(
             "Notification count error:",
             error
@@ -3706,7 +2710,6 @@ async function loadNotificationCount() {
 
         return;
     }
-
 
     updateNotificationBadge(
         count || 0
@@ -3721,18 +2724,13 @@ async function loadNotifications() {
             "notificationsList"
         );
 
-
     if (!container) return;
 
-
     if (!currentUser) {
-
         container.innerHTML = `
-
             <div class="empty-message">
-                سجّل الدخول لرؤية إشعاراتك.
+                Connectez-vous pour voir vos notifications.
             </div>
-
         `;
 
         updateNotificationBadge(0);
@@ -3740,66 +2738,52 @@ async function loadNotifications() {
         return;
     }
 
-
     container.innerHTML = `
-
         <div class="chat-loading">
-            جاري تحميل الإشعارات...
+            Chargement des notifications...
         </div>
-
     `;
-
 
     const {
         data: notifications,
         error
-    } =
-        await supabaseClient
-            .from("notifications")
-            .select(
-                "id,title,message,type,related_request_id,is_read,created_at"
-            )
-            .eq(
-                "user_id",
-                currentUser.id
-            )
-            .order(
-                "created_at",
-                {
-                    ascending:
-                        false
-                }
-            )
-            .limit(50);
-
+    } = await supabaseClient
+        .from("notifications")
+        .select(
+            "id,title,message,type,related_request_id,is_read,created_at"
+        )
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        )
+        .limit(50);
 
     if (error) {
-
         console.error(error);
 
         container.innerHTML = `
-
             <div class="empty-message">
-                تعذر تحميل الإشعارات.
+                Impossible de charger les notifications.
             </div>
-
         `;
 
         return;
     }
-
 
     if (
         !notifications ||
         notifications.length === 0
     ) {
-
         container.innerHTML = `
-
             <div class="empty-message">
-                لا توجد إشعارات حتى الآن 🔔
+                Aucune notification pour le moment 🔔
             </div>
-
         `;
 
         updateNotificationBadge(0);
@@ -3807,9 +2791,7 @@ async function loadNotifications() {
         return;
     }
 
-
     container.innerHTML = "";
-
 
     notifications.forEach(
         notification => {
@@ -3819,7 +2801,6 @@ async function loadNotifications() {
                     "div"
                 );
 
-
             item.className =
                 `notification-item ${
                     notification.is_read
@@ -3827,66 +2808,50 @@ async function loadNotifications() {
                         : "unread"
                 }`;
 
-
             item.dataset.notificationId =
                 notification.id;
 
-
             item.innerHTML = `
-
                 <div class="notification-icon">
-
                     ${getNotificationIcon(
                         notification.type
                     )}
-
                 </div>
-
 
                 <div class="notification-body">
 
                     <strong>
-
                         ${escapeHTML(
-                            notification.title
+                            translateNotificationTitle(
+                                notification.title
+                            )
                         )}
-
                     </strong>
 
-
                     <p>
-
                         ${escapeHTML(
-                            notification.message
+                            translateNotificationMessage(
+                                notification.message
+                            )
                         )}
-
                     </p>
 
-
                     <span class="notification-time">
-
                         ${formatNotificationTime(
                             notification.created_at
                         )}
-
                     </span>
 
                 </div>
 
-
                 ${
                     !notification.is_read
                         ? `
-
-                        <span class="notification-unread-dot">
-                        </span>
-
+                        <span class="notification-unread-dot"></span>
                         `
                         : ""
                 }
-
             `;
-
 
             item.addEventListener(
                 "click",
@@ -3896,23 +2861,18 @@ async function loadNotifications() {
                         notification.id
                     );
 
-
                     item.classList.remove(
                         "unread"
                     );
-
 
                     const dot =
                         item.querySelector(
                             ".notification-unread-dot"
                         );
 
-
                     if (dot) {
-
                         dot.remove();
                     }
-
 
                     if (
                         notification.related_request_id
@@ -3922,19 +2882,15 @@ async function loadNotifications() {
                             "notificationsModal"
                         );
 
-
                         if (
                             currentProfile?.role ===
                             "customer"
                         ) {
 
-                            const requestsSection =
-                                document.getElementById(
+                            document
+                                .getElementById(
                                     "customerRequestsSection"
-                                );
-
-
-                            requestsSection
+                                )
                                 ?.scrollIntoView({
                                     behavior:
                                         "smooth"
@@ -3942,13 +2898,10 @@ async function loadNotifications() {
 
                         } else {
 
-                            const dashboard =
-                                document.getElementById(
+                            document
+                                .getElementById(
                                     "workerDashboard"
-                                );
-
-
-                            dashboard
+                                )
                                 ?.scrollIntoView({
                                     behavior:
                                         "smooth"
@@ -3958,13 +2911,9 @@ async function loadNotifications() {
                 }
             );
 
-
-            container.appendChild(
-                item
-            );
+            container.appendChild(item);
         }
     );
-
 
     await loadNotificationCount();
 }
@@ -3973,9 +2922,8 @@ async function loadNotifications() {
 async function openNotifications() {
 
     if (!currentUser) {
-
         showMessage(
-            "يجب تسجيل الدخول أولًا لرؤية الإشعارات."
+            "Vous devez d'abord vous connecter pour voir vos notifications."
         );
 
         openAccountModal();
@@ -3983,11 +2931,9 @@ async function openNotifications() {
         return;
     }
 
-
     openModal(
         "notificationsModal"
     );
-
 
     await loadNotifications();
 }
@@ -3999,30 +2945,23 @@ async function markNotificationRead(
 
     if (!currentUser) return;
 
-
     const {
         error
-    } =
-        await supabaseClient
-            .from("notifications")
-            .update({
-
-                is_read:
-                    true
-
-            })
-            .eq(
-                "id",
-                notificationId
-            )
-            .eq(
-                "user_id",
-                currentUser.id
-            );
-
+    } = await supabaseClient
+        .from("notifications")
+        .update({
+            is_read: true
+        })
+        .eq(
+            "id",
+            notificationId
+        )
+        .eq(
+            "user_id",
+            currentUser.id
+        );
 
     if (error) {
-
         console.error(
             "Mark notification error:",
             error
@@ -4030,7 +2969,6 @@ async function markNotificationRead(
 
         return;
     }
-
 
     await loadNotificationCount();
 }
@@ -4040,42 +2978,33 @@ async function markAllNotificationsRead() {
 
     if (!currentUser) return;
 
-
     const {
         error
-    } =
-        await supabaseClient
-            .from("notifications")
-            .update({
-
-                is_read:
-                    true
-
-            })
-            .eq(
-                "user_id",
-                currentUser.id
-            )
-            .eq(
-                "is_read",
-                false
-            );
-
+    } = await supabaseClient
+        .from("notifications")
+        .update({
+            is_read: true
+        })
+        .eq(
+            "user_id",
+            currentUser.id
+        )
+        .eq(
+            "is_read",
+            false
+        );
 
     if (error) {
-
         console.error(error);
 
         showMessage(
-            "تعذر تعليم الإشعارات كمقروءة."
+            "Impossible de marquer les notifications comme lues."
         );
 
         return;
     }
 
-
     updateNotificationBadge(0);
-
 
     await loadNotifications();
 }
@@ -4085,20 +3014,14 @@ function subscribeToNotifications() {
 
     if (!currentUser) return;
 
+    if (currentNotificationChannel) {
 
-    if (
-        currentNotificationChannel
-    ) {
+        supabaseClient.removeChannel(
+            currentNotificationChannel
+        );
 
-        supabaseClient
-            .removeChannel(
-                currentNotificationChannel
-            );
-
-        currentNotificationChannel =
-            null;
+        currentNotificationChannel = null;
     }
-
 
     currentNotificationChannel =
         supabaseClient
@@ -4108,19 +3031,11 @@ function subscribeToNotifications() {
             .on(
                 "postgres_changes",
                 {
-
-                    event:
-                        "INSERT",
-
-                    schema:
-                        "public",
-
-                    table:
-                        "notifications",
-
+                    event: "INSERT",
+                    schema: "public",
+                    table: "notifications",
                     filter:
                         `user_id=eq.${currentUser.id}`
-
                 },
                 payload => {
 
@@ -4129,23 +3044,23 @@ function subscribeToNotifications() {
                         payload.new
                     );
 
-
                     updateNotificationBadgeFromRealtime();
-
 
                     const title =
                         payload.new.title ||
-                        "إشعار جديد";
-
+                        "Nouvelle notification";
 
                     const message =
                         payload.new.message ||
                         "";
 
-
                     showNotificationToast(
-                        title,
-                        message
+                        translateNotificationTitle(
+                            title
+                        ),
+                        translateNotificationMessage(
+                            message
+                        )
                     );
                 }
             )
@@ -4162,7 +3077,6 @@ function subscribeToNotifications() {
 
 
 async function updateNotificationBadgeFromRealtime() {
-
     await loadNotificationCount();
 }
 
@@ -4177,31 +3091,24 @@ function showNotificationToast(
             ".notification-toast"
         );
 
-
     if (oldToast) {
-
         oldToast.remove();
     }
-
 
     const toast =
         document.createElement(
             "div"
         );
 
-
     toast.className =
         "notification-toast";
 
-
     toast.innerHTML = `
-
         <div class="notification-toast-icon">
             🔔
         </div>
 
         <div>
-
             <strong>
                 ${escapeHTML(title)}
             </strong>
@@ -4209,72 +3116,37 @@ function showNotificationToast(
             <p>
                 ${escapeHTML(message)}
             </p>
-
         </div>
-
     `;
-
 
     Object.assign(
         toast.style,
         {
-
-            position:
-                "fixed",
-
-            top:
-                "75px",
-
-            right:
-                "20px",
-
-            zIndex:
-                "5000",
-
+            position: "fixed",
+            top: "75px",
+            right: "20px",
+            zIndex: "5000",
             width:
                 "min(360px, calc(100vw - 40px))",
-
-            display:
-                "flex",
-
-            gap:
-                "10px",
-
-            alignItems:
-                "flex-start",
-
-            padding:
-                "14px",
-
-            borderRadius:
-                "14px",
-
-            background:
-                "white",
-
+            display: "flex",
+            gap: "10px",
+            alignItems: "flex-start",
+            padding: "14px",
+            borderRadius: "14px",
+            background: "white",
             boxShadow:
                 "0 8px 30px rgba(0,0,0,.18)",
-
             border:
                 "1px solid #e5eeee",
-
-            direction:
-                "rtl"
-
+            direction: "ltr"
         }
     );
 
-
-    document.body.appendChild(
-        toast
-    );
-
+    document.body.appendChild(toast);
 
     setTimeout(
         () => {
-
             toast.remove();
-
         },
         5000
     );
@@ -4303,11 +3175,8 @@ document
                             modal.id ===
                             "chatModal"
                         ) {
-
                             closeChat();
-
                         } else {
-
                             modal.classList.remove(
                                 "active"
                             );
@@ -4332,7 +3201,6 @@ supabaseClient.auth.onAuthStateChange(
         currentUser =
             session?.user ||
             null;
-
 
         await loadCurrentUser();
     }
