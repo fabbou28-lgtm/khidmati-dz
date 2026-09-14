@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fabbou28-lgtm.github.io/khidmati-dz/sitemap.xml
