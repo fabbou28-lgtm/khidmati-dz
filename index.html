@@ -703,7 +703,35 @@
             </button>
 
         </form>
+        </form>
 
+
+        <p class="switch-text">
+
+            <button
+                type="button"
+                onclick="forgotPassword()">
+
+                🔑 Mot de passe oublié ?
+
+            </button>
+
+        </p>
+
+
+        <p class="switch-text">
+
+            Vous n'avez pas encore de compte ?
+
+            <button
+                type="button"
+                onclick="switchToRegister()">
+
+                Créer un compte
+
+            </button>
+
+        </p>
 
         <p class="switch-text">
 
@@ -1214,6 +1242,41 @@
     </div>
 
 </div>
+
+<!-- =====================================================
+     ADMIN DASHBOARD
+===================================================== -->
+
+<section
+    id="adminDashboard"
+    class="dashboard-section hidden">
+
+   <!-- =====================================================
+     TABLEAU DE BORD ADMINISTRATEUR
+===================================================== -->
+
+<section id="adminDashboard" class="dashboard-section hidden">
+
+    <div class="section-title-row">
+
+        <div>
+            <h2>🛠️ Tableau de bord administrateur</h2>
+
+            <p>
+                Gérez les demandes, suivez les commissions
+                et surveillez l’activité de Khidmati DZ.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Statistiques administrateur -->
+    <div id="adminStats"></div>
+
+    <!-- Liste des commissions -->
+    <div id="adminCommissions"></div>
+
+</section>
 
 
 <!-- =====================================================

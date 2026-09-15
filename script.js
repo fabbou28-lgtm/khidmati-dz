@@ -3218,3 +3218,269 @@ supabaseClient.auth.onAuthStateChange(
     await loadCurrentUser();
 
 })();
+// =====================================================
+// ADMIN DASHBOARD
+// =====================================================
+
+async function checkAdminAccess() {
+    if (!currentUser) return false;
+
+    const { data, error } = await supabaseClient
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", currentUser.id)
+        .maybeSingle();
+
+    if (error) {
+        console.error("Erreur vérification admin :", error);
+        return false;
+    }
+
+    return !!data;
+}
+
+
+async function openAdminDashboard() {
+    if (!currentUser) {
+        alert("Veuillez vous connecter.");
+        return;
+    }
+
+    const isAdmin = await checkAdminAccess();
+
+    if (!isAdmin) {
+        alert("Accès réservé à l'administrateur.");
+        return;
+    }
+
+    const dashboard = document.getElementById("adminDashboard");
+
+    if (!dashboard) return;
+
+    dashboard.classList.remove("hidden");
+
+    await loadAdminDashboard();
+
+    dashboard.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+
+async function loadAdminDashboard() {
+    const statsContainer = document.getElementById("adminStats");
+    const commissionsContainer = document.getElementById("adminCommissions");
+
+    if (!statsContainer || !commissionsContainer) return;
+
+    statsContainer.innerHTML = `
+        <div class="empty-state">
+            ⏳ Chargement du tableau de bord...
+        </div>
+    `;
+
+    // Vérification admin
+    const isAdmin = await checkAdminAccess();
+
+    if (!isAdmin) {
+        statsContainer.innerHTML = `
+            <div class="empty-state">
+                ❌ Accès refusé.
+            </div>
+        `;
+
+        commissionsContainer.innerHTML = "";
+        return;
+    }
+
+    // Récupération des commissions
+    const { data: commissions, error } = await supabaseClient
+        .from("commissions")
+        .select(`
+            id,
+            request_id,
+            customer_id,
+            worker_id,
+            service_amount,
+            commission_rate,
+            commission_amount,
+            status,
+            created_at
+        `)
+        .order("created_at", {
+            ascending: false
+        });
+
+    if (error) {
+        console.error("Erreur commissions :", error);
+
+        statsContainer.innerHTML = `
+            <div class="empty-state">
+                ❌ Impossible de charger les commissions.
+            </div>
+        `;
+
+        commissionsContainer.innerHTML = "";
+        return;
+    }
+
+    const allCommissions = commissions || [];
+
+    const pending = allCommissions.filter(
+        commission => commission.status === "pending"
+    );
+
+    const paid = allCommissions.filter(
+        commission => commission.status === "paid"
+    );
+
+    const totalCommission = allCommissions.reduce(
+        (total, commission) =>
+            total + Number(commission.commission_amount || 0),
+        0
+    );
+
+    const pendingAmount = pending.reduce(
+        (total, commission) =>
+            total + Number(commission.commission_amount || 0),
+        0
+    );
+
+    const paidAmount = paid.reduce(
+        (total, commission) =>
+            total + Number(commission.commission_amount || 0),
+        0
+    );
+
+    // Statistiques
+    statsContainer.innerHTML = `
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <strong>${totalCommission.toFixed(2)} DA</strong>
+                <span>Commission totale</span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <strong>${pendingAmount.toFixed(2)} DA</strong>
+                <span>En attente</span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <strong>${paidAmount.toFixed(2)} DA</strong>
+                <span>Payé</span>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📋</div>
+                <strong>${allCommissions.length}</strong>
+                <span>Transactions</span>
+            </div>
+
+        </div>
+    `;
+
+    // Liste des commissions
+    if (allCommissions.length === 0) {
+        commissionsContainer.innerHTML = `
+            <div class="empty-state">
+                📭 Aucune commission pour le moment.
+            </div>
+        `;
+
+        return;
+    }
+
+    commissionsContainer.innerHTML = `
+        <div class="admin-table-wrapper">
+
+            <h3>💰 Commissions</h3>
+
+            <div class="admin-commission-list">
+
+                ${allCommissions.map(commission => `
+
+                    <div class="admin-commission-card">
+
+                        <div>
+                            <strong>
+                                Demande #${commission.request_id}
+                            </strong>
+
+                            <p>
+                                Service :
+                                ${Number(commission.service_amount).toFixed(2)} DA
+                            </p>
+
+                            <p>
+                                Taux :
+                                ${Number(commission.commission_rate)}%
+                            </p>
+                        </div>
+
+                        <div class="commission-amount">
+
+                            <strong>
+                                ${Number(commission.commission_amount).toFixed(2)} DA
+                            </strong>
+
+                            <span class="commission-status ${commission.status}">
+                                ${
+                                    commission.status === "paid"
+                                        ? "✅ Payé"
+                                        : commission.status === "cancelled"
+                                            ? "❌ Annulé"
+                                            : "⏳ En attente"
+                                }
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `).join("")}
+
+            </div>
+
+        </div>
+    `;
+}
+// =====================================================
+// FORGOT PASSWORD
+// =====================================================
+
+async function forgotPassword() {
+    const email = document.getElementById("loginEmail").value.trim();
+
+    if (!email) {
+        alert("Veuillez entrer votre adresse e-mail dans le champ de connexion.");
+        document.getElementById("loginEmail").focus();
+        return;
+    }
+
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: "https://fabbou28-lgtm.github.io/khidmati-dz/"
+    });
+
+    if (error) {
+        console.error("Erreur récupération mot de passe :", error);
+
+        alert(
+            "Impossible d'envoyer l'e-mail de récupération.\n\n" +
+            error.message
+        );
+
+        return;
+    }
+
+    alert(
+        "📧 Un e-mail de récupération a été envoyé à votre adresse.\n\n" +
+        "Vérifiez votre boîte de réception et vos spams."
+    );
+
+    closeModal("loginModal");
+}
