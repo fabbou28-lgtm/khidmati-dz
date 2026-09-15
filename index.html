@@ -2,12 +2,23 @@
 <html lang="fr" dir="ltr">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="icon" type="image/png" href="favicon.png">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Khidmati DZ 🇩🇿 | Plateforme de services en Algérie</title>
+    <link
+        rel="icon"
+        type="image/png"
+        href="favicon.png"
+    >
+
+    <title>
+        Khidmati DZ 🇩🇿 | Plateforme de services en Algérie
+    </title>
 
     <meta
         name="description"
@@ -19,14 +30,20 @@
         content="Khidmati DZ, services Algérie, artisans Algérie, prestataires Algérie, demande de service, artisan"
     >
 
-    <meta name="robots" content="index, follow">
+    <meta
+        name="robots"
+        content="index, follow"
+    >
 
     <meta
         name="google-site-verification"
         content="Zj0uxlomfyaE99SYZcB9is7MxeVDh2yNfgK1CEGp0Kk"
     >
 
-    <!-- SEO -->
+    <!-- =====================================================
+         SEO
+    ====================================================== -->
+
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -39,9 +56,13 @@
     }
     </script>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
 
 
@@ -63,22 +84,26 @@
             id="notificationButton"
             class="notification-button"
             onclick="openNotifications()"
-            title="Notifications">
+            title="Notifications"
+        >
 
             🔔
 
             <span
                 id="notificationBadge"
-                class="notification-badge hidden">
+                class="notification-badge hidden"
+            >
                 0
             </span>
 
         </button>
 
+
         <button
             id="accountButton"
             class="account-button"
-            onclick="openAccountModal()">
+            onclick="openAccountModal()"
+        >
 
             👤 Mon compte
 
@@ -98,29 +123,39 @@
     <div class="hero-content">
 
         <h1>
+
             Vous cherchez un artisan ?
+
             <br>
+
             <span>Khidmati DZ</span>
             est là pour vous aider 🇩🇿
+
         </h1>
 
         <p>
-            Demandez un service, comparez les prix et choisissez le prestataire qui vous convient.
+
+            Demandez un service, comparez les prix
+            et choisissez le prestataire qui vous convient.
+
         </p>
 
         <div class="hero-buttons">
 
             <button
                 class="primary-btn"
-                onclick="openRequestModal()">
+                onclick="openRequestModal()"
+            >
 
                 ➕ Demander un service
 
             </button>
 
+
             <button
                 class="secondary-btn"
-                onclick="scrollToWorkers()">
+                onclick="scrollToWorkers()"
+            >
 
                 👨‍🔧 Découvrir les prestataires
 
@@ -139,7 +174,9 @@
 
 <section class="search-section">
 
-    <h2>🔎 De quoi avez-vous besoin ?</h2>
+    <h2>
+        🔎 De quoi avez-vous besoin ?
+    </h2>
 
     <input
         type="text"
@@ -156,18 +193,24 @@
 
 <section class="services-section">
 
-    <h2>Nos services</h2>
+    <h2>
+        Nos services
+    </h2>
 
     <div class="services-grid">
+
 
         <div
             class="service-card"
             data-service="كهربائي"
-            onclick="selectServiceAndOpenRequest('كهربائي')">
+            onclick="selectServiceAndOpenRequest('كهربائي')"
+        >
 
             ⚡
 
-            <h3>Électricien</h3>
+            <h3>
+                Électricien
+            </h3>
 
             <p>
                 Installation et réparation électrique
@@ -179,11 +222,14 @@
         <div
             class="service-card"
             data-service="سباك"
-            onclick="selectServiceAndOpenRequest('سباك')">
+            onclick="selectServiceAndOpenRequest('سباك')"
+        >
 
             🚰
 
-            <h3>Plombier</h3>
+            <h3>
+                Plombier
+            </h3>
 
             <p>
                 Réparation de l'eau et des canalisations
@@ -195,11 +241,14 @@
         <div
             class="service-card"
             data-service="تنظيف"
-            onclick="selectServiceAndOpenRequest('تنظيف')">
+            onclick="selectServiceAndOpenRequest('تنظيف')"
+        >
 
             🧹
 
-            <h3>Nettoyage</h3>
+            <h3>
+                Nettoyage
+            </h3>
 
             <p>
                 Nettoyage des maisons et des locaux
@@ -211,11 +260,14 @@
         <div
             class="service-card"
             data-service="إصلاح الهواتف"
-            onclick="selectServiceAndOpenRequest('إصلاح الهواتف')">
+            onclick="selectServiceAndOpenRequest('إصلاح الهواتف')"
+        >
 
             📱
 
-            <h3>Réparation de téléphones</h3>
+            <h3>
+                Réparation de téléphones
+            </h3>
 
             <p>
                 Entretien et réparation des téléphones
@@ -227,11 +279,14 @@
         <div
             class="service-card"
             data-service="نجار"
-            onclick="selectServiceAndOpenRequest('نجار')">
+            onclick="selectServiceAndOpenRequest('نجار')"
+        >
 
             🪚
 
-            <h3>Menuisier</h3>
+            <h3>
+                Menuisier
+            </h3>
 
             <p>
                 Travaux de bois et de mobilier
@@ -243,17 +298,21 @@
         <div
             class="service-card"
             data-service="دهان"
-            onclick="selectServiceAndOpenRequest('دهان')">
+            onclick="selectServiceAndOpenRequest('دهان')"
+        >
 
             🎨
 
-            <h3>Peintre</h3>
+            <h3>
+                Peintre
+            </h3>
 
             <p>
                 Peinture et rénovation des maisons
             </p>
 
         </div>
+
 
     </div>
 
@@ -266,7 +325,8 @@
 
 <section
     id="workerDashboard"
-    class="dashboard-section hidden">
+    class="dashboard-section hidden"
+>
 
     <div class="section-title-row">
 
@@ -282,9 +342,11 @@
 
         </div>
 
+
         <button
             class="small-btn"
-            onclick="openMyProfile()">
+            onclick="openMyProfile()"
+        >
 
             👤 Mon profil
 
@@ -295,8 +357,8 @@
 
     <div
         id="workerMiniProfile"
-        class="worker-mini-profile">
-    </div>
+        class="worker-mini-profile"
+    ></div>
 
 
     <div id="workerRequests"></div>
@@ -310,7 +372,8 @@
 
 <section
     id="customerRequestsSection"
-    class="dashboard-section hidden">
+    class="dashboard-section hidden"
+>
 
     <div class="section-title-row">
 
@@ -340,7 +403,8 @@
 
 <section
     id="workersSection"
-    class="workers-section">
+    class="workers-section"
+>
 
     <div class="section-title-row">
 
@@ -389,8 +453,6 @@
                     Toutes les spécialités
                 </option>
 
-                <!-- Les valeurs restent en arabe pour préserver la compatibilité avec Supabase -->
-
                 <option value="كهربائي">
                     ⚡ Électricien
                 </option>
@@ -426,7 +488,8 @@
 
         <button
             class="clear-filter-btn"
-            onclick="clearWorkerFilters()">
+            onclick="clearWorkerFilters()"
+        >
 
             ✖ Effacer
 
@@ -437,8 +500,8 @@
 
     <div
         id="workersList"
-        class="workers-grid">
-    </div>
+        class="workers-grid"
+    ></div>
 
 </section>
 
@@ -450,28 +513,57 @@
 <nav class="bottom-nav">
 
     <button onclick="scrollToTop()">
+
         🏠
-        <span>Accueil</span>
+
+        <span>
+            Accueil
+        </span>
+
     </button>
+
 
     <button onclick="openRequestModal()">
+
         ➕
-        <span>Demande</span>
+
+        <span>
+            Demande
+        </span>
+
     </button>
+
 
     <button onclick="scrollToWorkers()">
+
         👨‍🔧
-        <span>Prestataires</span>
+
+        <span>
+            Prestataires
+        </span>
+
     </button>
+
 
     <button onclick="openNotifications()">
+
         🔔
-        <span>Notifications</span>
+
+        <span>
+            Notifications
+        </span>
+
     </button>
 
+
     <button onclick="openAccountModal()">
+
         👤
-        <span>Compte</span>
+
+        <span>
+            Compte
+        </span>
+
     </button>
 
 </nav>
@@ -483,64 +575,63 @@
 
 <datalist id="wilayaList">
 
-    <option value="Adrar">
-    <option value="Chlef">
-    <option value="Laghouat">
-    <option value="Oum El Bouaghi">
-    <option value="Batna">
-    <option value="Béjaïa">
-    <option value="Biskra">
-    <option value="Béchar">
-    <option value="Blida">
-    <option value="Bouira">
-    <option value="Tamanrasset">
-    <option value="Tébessa">
-    <option value="Tlemcen">
-    <option value="Tiaret">
-    <option value="Tizi Ouzou">
-    <option value="Alger">
-    <option value="Djelfa">
-    <option value="Jijel">
-    <option value="Sétif">
-    <option value="Saïda">
-    <option value="Skikda">
-    <option value="Sidi Bel Abbès">
-    <option value="Annaba">
-    <option value="Guelma">
-    <option value="Constantine">
-    <option value="Médéa">
-    <option value="Mostaganem">
-    <option value="M'Sila">
-    <option value="Mascara">
-    <option value="Ouargla">
-    <option value="Oran">
-    <option value="El Bayadh">
-    <option value="Illizi">
-    <option value="Bordj Badji Mokhtar">
-    <option value="Bordj Bou Arréridj">
-    <option value="Boumerdès">
-    <option value="El Tarf">
-    <option value="Tindouf">
-    <option value="Tissemsilt">
-    <option value="El Oued">
-    <option value="Khenchela">
-    <option value="Souk Ahras">
-    <option value="Tipaza">
-    <option value="Mila">
-    <option value="Aïn Defla">
-    <option value="Naâma">
-    <option value="Aïn Témouchent">
-    <option value="Relizane">
-    <option value="Timimoun">
-    <option value="Bordj Badji Mokhtar">
-    <option value="Ouled Djellal">
-    <option value="Béni Abbès">
-    <option value="In Salah">
-    <option value="In Guezzam">
-    <option value="Touggourt">
-    <option value="Djanet">
-    <option value="El Meghaier">
-    <option value="El Meniaa">
+    <option value="أدرار">
+    <option value="الشلف">
+    <option value="الأغواط">
+    <option value="أم البواقي">
+    <option value="باتنة">
+    <option value="بجاية">
+    <option value="بسكرة">
+    <option value="بشار">
+    <option value="البليدة">
+    <option value="البويرة">
+    <option value="تمنراست">
+    <option value="تبسة">
+    <option value="تلمسان">
+    <option value="تيارت">
+    <option value="تيزي وزو">
+    <option value="الجزائر">
+    <option value="الجلفة">
+    <option value="جيجل">
+    <option value="سطيف">
+    <option value="سعيدة">
+    <option value="سكيكدة">
+    <option value="سيدي بلعباس">
+    <option value="عنابة">
+    <option value="قالمة">
+    <option value="قسنطينة">
+    <option value="المدية">
+    <option value="مستغانم">
+    <option value="المسيلة">
+    <option value="معسكر">
+    <option value="ورقلة">
+    <option value="وهران">
+    <option value="البيض">
+    <option value="إليزي">
+    <option value="برج باجي مختار">
+    <option value="برج بوعريريج">
+    <option value="بومرداس">
+    <option value="الطارف">
+    <option value="تندوف">
+    <option value="تيسمسيلت">
+    <option value="الوادي">
+    <option value="خنشلة">
+    <option value="سوق أهراس">
+    <option value="تيبازة">
+    <option value="ميلة">
+    <option value="عين الدفلى">
+    <option value="النعامة">
+    <option value="عين تموشنت">
+    <option value="غليزان">
+    <option value="تيميمون">
+    <option value="أولاد جلال">
+    <option value="بني عباس">
+    <option value="عين صالح">
+    <option value="عين قزام">
+    <option value="تقرت">
+    <option value="جانت">
+    <option value="المغير">
+    <option value="المنيعة">
 
 </datalist>
 
@@ -551,21 +642,25 @@
 
 <div
     id="accountModal"
-    class="modal">
+    class="modal"
+>
 
     <div class="modal-content">
 
         <button
             class="close-btn"
-            onclick="closeModal('accountModal')">
+            onclick="closeModal('accountModal')"
+        >
 
             ×
 
         </button>
 
+
         <h2>
             👤 Compte
         </h2>
+
 
         <div id="accountContent"></div>
 
@@ -580,17 +675,20 @@
 
 <div
     id="registerModal"
-    class="modal">
+    class="modal"
+>
 
     <div class="modal-content">
 
         <button
             class="close-btn"
-            onclick="closeModal('registerModal')">
+            onclick="closeModal('registerModal')"
+        >
 
             ×
 
         </button>
+
 
         <h2>
             📝 Créer un compte
@@ -606,6 +704,7 @@
                 required
             >
 
+
             <input
                 type="email"
                 id="registerEmail"
@@ -613,12 +712,14 @@
                 required
             >
 
+
             <input
                 type="tel"
                 id="registerPhone"
                 placeholder="Numéro de téléphone"
                 required
             >
+
 
             <input
                 type="password"
@@ -628,9 +729,11 @@
                 required
             >
 
+
             <select
                 id="registerRole"
-                required>
+                required
+            >
 
                 <option value="customer">
                     👤 Client
@@ -645,7 +748,8 @@
 
             <div
                 id="workerRegisterFields"
-                class="hidden">
+                class="hidden"
+            >
 
                 <select id="registerSpeciality">
 
@@ -696,49 +800,27 @@
 
             <button
                 type="submit"
-                class="primary-btn full-width">
+                class="primary-btn full-width"
+            >
 
                 Créer mon compte
 
             </button>
 
         </form>
-        </form>
 
-
-        <p class="switch-text">
-
-            <button
-                type="button"
-                onclick="forgotPassword()">
-
-                🔑 Mot de passe oublié ?
-
-            </button>
-
-        </p>
-
-
-        <p class="switch-text">
-
-            Vous n'avez pas encore de compte ?
-
-            <button
-                type="button"
-                onclick="switchToRegister()">
-
-                Créer un compte
-
-            </button>
-
-        </p>
 
         <p class="switch-text">
 
             Vous avez déjà un compte ?
 
-            <button onclick="switchToLogin()">
+            <button
+                type="button"
+                onclick="switchToLogin()"
+            >
+
                 Se connecter
+
             </button>
 
         </p>
@@ -754,17 +836,20 @@
 
 <div
     id="loginModal"
-    class="modal">
+    class="modal"
+>
 
     <div class="modal-content">
 
         <button
             class="close-btn"
-            onclick="closeModal('loginModal')">
+            onclick="closeModal('loginModal')"
+        >
 
             ×
 
         </button>
+
 
         <h2>
             🔐 Connexion
@@ -780,6 +865,7 @@
                 required
             >
 
+
             <input
                 type="password"
                 id="loginPassword"
@@ -787,9 +873,11 @@
                 required
             >
 
+
             <button
                 type="submit"
-                class="primary-btn full-width">
+                class="primary-btn full-width"
+            >
 
                 Se connecter
 
@@ -798,12 +886,33 @@
         </form>
 
 
+        <!-- MOT DE PASSE OUBLIÉ -->
+
+        <p class="switch-text">
+
+            <button
+                type="button"
+                onclick="forgotPassword()"
+            >
+
+                🔑 Mot de passe oublié ?
+
+            </button>
+
+        </p>
+
+
         <p class="switch-text">
 
             Vous n'avez pas encore de compte ?
 
-            <button onclick="switchToRegister()">
+            <button
+                type="button"
+                onclick="switchToRegister()"
+            >
+
                 Créer un compte
+
             </button>
 
         </p>
@@ -819,17 +928,20 @@
 
 <div
     id="requestModal"
-    class="modal">
+    class="modal"
+>
 
     <div class="modal-content">
 
         <button
             class="close-btn"
-            onclick="closeModal('requestModal')">
+            onclick="closeModal('requestModal')"
+        >
 
             ×
 
         </button>
+
 
         <h2>
             ➕ Demander un service
@@ -840,7 +952,8 @@
 
             <select
                 id="requestService"
-                required>
+                required
+            >
 
                 <option value="">
                     Choisissez un service
@@ -880,7 +993,8 @@
             <textarea
                 id="requestDescription"
                 placeholder="Décrivez précisément ce dont vous avez besoin..."
-                required></textarea>
+                required
+            ></textarea>
 
 
             <input
@@ -910,7 +1024,8 @@
 
             <button
                 type="submit"
-                class="primary-btn full-width">
+                class="primary-btn full-width"
+            >
 
                 Publier la demande
 
@@ -929,17 +1044,20 @@
 
 <div
     id="offerModal"
-    class="modal">
+    class="modal"
+>
 
     <div class="modal-content">
 
         <button
             class="close-btn"
-            onclick="closeModal('offerModal')">
+            onclick="closeModal('offerModal')"
+        >
 
             ×
 
         </button>
+
 
         <h2>
             💰 Faire une offre
@@ -965,12 +1083,14 @@
 
             <textarea
                 id="offerMessage"
-                placeholder="Message pour le client (facultatif)"></textarea>
+                placeholder="Message pour le client (facultatif)"
+            ></textarea>
 
 
             <button
                 type="submit"
-                class="primary-btn full-width">
+                class="primary-btn full-width"
+            >
 
                 Envoyer l'offre
 
@@ -989,17 +1109,20 @@
 
 <div
     id="ratingModal"
-    class="modal">
+    class="modal"
+>
 
     <div class="modal-content">
 
         <button
             class="close-btn"
-            onclick="closeModal('ratingModal')">
+            onclick="closeModal('ratingModal')"
+        >
 
             ×
 
         </button>
+
 
         <h2>
             ⭐ Évaluer le prestataire
@@ -1024,31 +1147,36 @@
 
                 <button
                     type="button"
-                    onclick="setRating(1)">
+                    onclick="setRating(1)"
+                >
                     ★
                 </button>
 
                 <button
                     type="button"
-                    onclick="setRating(2)">
+                    onclick="setRating(2)"
+                >
                     ★
                 </button>
 
                 <button
                     type="button"
-                    onclick="setRating(3)">
+                    onclick="setRating(3)"
+                >
                     ★
                 </button>
 
                 <button
                     type="button"
-                    onclick="setRating(4)">
+                    onclick="setRating(4)"
+                >
                     ★
                 </button>
 
                 <button
                     type="button"
-                    onclick="setRating(5)">
+                    onclick="setRating(5)"
+                >
                     ★
                 </button>
 
@@ -1064,12 +1192,14 @@
 
             <textarea
                 id="ratingComment"
-                placeholder="Écrivez votre commentaire..."></textarea>
+                placeholder="Écrivez votre commentaire..."
+            ></textarea>
 
 
             <button
                 type="submit"
-                class="primary-btn full-width">
+                class="primary-btn full-width"
+            >
 
                 Envoyer l'évaluation
 
@@ -1088,17 +1218,20 @@
 
 <div
     id="profileModal"
-    class="modal">
+    class="modal"
+>
 
     <div class="modal-content">
 
         <button
             class="close-btn"
-            onclick="closeModal('profileModal')">
+            onclick="closeModal('profileModal')"
+        >
 
             ×
 
         </button>
+
 
         <div id="profileContent"></div>
 
@@ -1113,13 +1246,15 @@
 
 <div
     id="notificationsModal"
-    class="modal">
+    class="modal"
+>
 
     <div class="modal-content notifications-modal">
 
         <button
             class="close-btn"
-            onclick="closeModal('notificationsModal')">
+            onclick="closeModal('notificationsModal')"
+        >
 
             ×
 
@@ -1143,7 +1278,8 @@
 
             <button
                 class="small-btn"
-                onclick="markAllNotificationsRead()">
+                onclick="markAllNotificationsRead()"
+            >
 
                 ✓ Tout marquer comme lu
 
@@ -1154,7 +1290,8 @@
 
         <div
             id="notificationsList"
-            class="notifications-list">
+            class="notifications-list"
+        >
 
             <div class="empty-message">
                 Aucune notification.
@@ -1173,7 +1310,8 @@
 
 <div
     id="chatModal"
-    class="modal">
+    class="modal"
+>
 
     <div class="modal-content chat-modal">
 
@@ -1195,7 +1333,8 @@
             <button
                 type="button"
                 class="close-btn"
-                onclick="closeChat()">
+                onclick="closeChat()"
+            >
 
                 ×
 
@@ -1206,7 +1345,8 @@
 
         <div
             id="chatMessages"
-            class="chat-messages">
+            class="chat-messages"
+        >
 
             <div class="chat-empty">
                 Aucun message pour le moment 👋
@@ -1217,7 +1357,8 @@
 
         <form
             id="chatForm"
-            class="chat-form">
+            class="chat-form"
+        >
 
             <input
                 type="text"
@@ -1231,7 +1372,8 @@
 
             <button
                 type="submit"
-                class="send-message-btn">
+                class="send-message-btn"
+            >
 
                 Envoyer
 
@@ -1243,37 +1385,41 @@
 
 </div>
 
+
 <!-- =====================================================
      ADMIN DASHBOARD
 ===================================================== -->
 
 <section
     id="adminDashboard"
-    class="dashboard-section hidden">
-
-   <!-- =====================================================
-     TABLEAU DE BORD ADMINISTRATEUR
-===================================================== -->
-
-<section id="adminDashboard" class="dashboard-section hidden">
+    class="dashboard-section hidden"
+>
 
     <div class="section-title-row">
 
         <div>
-            <h2>🛠️ Tableau de bord administrateur</h2>
+
+            <h2>
+                🛠️ Tableau de bord administrateur
+            </h2>
 
             <p>
                 Gérez les demandes, suivez les commissions
                 et surveillez l’activité de Khidmati DZ.
             </p>
+
         </div>
 
     </div>
 
-    <!-- Statistiques administrateur -->
+
+    <!-- STATISTIQUES -->
+
     <div id="adminStats"></div>
 
-    <!-- Liste des commissions -->
+
+    <!-- COMMISSIONS -->
+
     <div id="adminCommissions"></div>
 
 </section>
@@ -1285,5 +1431,7 @@
 
 <script src="script.js?v=4"></script>
 
+
 </body>
+
 </html>

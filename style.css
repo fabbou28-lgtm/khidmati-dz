@@ -733,20 +733,47 @@ button {
     resize: vertical;
 }
 
+
+/* =====================================================
+   SWITCH TEXT
+===================================================== */
+
 .switch-text {
     text-align: center;
 
     color: #777;
+
+    margin: 14px 0;
 }
 
 .switch-text button {
+    display: inline-block !important;
+
+    visibility: visible !important;
+
+    opacity: 1 !important;
+
     border: none;
 
-    background: none;
+    background: transparent;
 
     color: #00897b;
 
     font-weight: bold;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    padding: 5px;
+
+    margin: 0;
+}
+
+.switch-text button:hover {
+    color: #00796b;
+
+    text-decoration: underline;
 }
 
 
@@ -1272,6 +1299,7 @@ button {
 
 ::-webkit-scrollbar-thumb {
     background: #b8d8d5;
+
     border-radius: 10px;
 }
 
@@ -1428,6 +1456,7 @@ button {
 
     .services-grid {
         grid-template-columns: 1fr 1fr;
+
         gap: 10px;
     }
 
@@ -1458,16 +1487,23 @@ button {
         height: 38px;
     }
 }
+
+
 /* =====================================================
    ADMIN DASHBOARD
 ===================================================== */
 
 #adminDashboard {
     margin-top: 30px;
+
     padding: 25px;
+
     border-radius: 20px;
+
     background: #ffffff;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+    box-shadow:
+        0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
 #adminDashboard .section-title-row {
@@ -1476,32 +1512,44 @@ button {
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
     gap: 15px;
+
     margin-bottom: 30px;
 }
 
 .stat-card {
     padding: 20px;
+
     border-radius: 16px;
+
     background: #f7f9fb;
+
     text-align: center;
+
     border: 1px solid #e8edf2;
 }
 
 .stat-icon {
     font-size: 30px;
+
     margin-bottom: 10px;
 }
 
 .stat-card strong {
     display: block;
+
     font-size: 22px;
+
     margin-bottom: 6px;
 }
 
 .stat-card span {
     color: #68737d;
+
     font-size: 14px;
 }
 
@@ -1511,42 +1559,59 @@ button {
 
 .admin-commission-list {
     display: flex;
+
     flex-direction: column;
+
     gap: 12px;
 }
 
 .admin-commission-card {
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
+
     gap: 20px;
+
     padding: 18px;
+
     border: 1px solid #e8edf2;
+
     border-radius: 14px;
+
     background: #fff;
 }
 
 .admin-commission-card p {
     margin: 6px 0;
+
     color: #68737d;
 }
 
 .commission-amount {
     text-align: right;
+
     min-width: 130px;
 }
 
 .commission-amount strong {
     display: block;
+
     font-size: 18px;
+
     margin-bottom: 8px;
 }
 
 .commission-status {
     display: inline-block;
+
     padding: 5px 10px;
+
     border-radius: 20px;
+
     font-size: 12px;
+
     background: #f1f3f5;
 }
 
@@ -1563,22 +1628,26 @@ button {
 }
 
 
-/* Mobile */
+/* =====================================================
+   ADMIN MOBILE
+===================================================== */
+
 @media (max-width: 800px) {
 
     .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
     .admin-commission-card {
         flex-direction: column;
+
         align-items: flex-start;
     }
 
     .commission-amount {
         text-align: left;
     }
-
 }
 
 @media (max-width: 500px) {
@@ -1590,5 +1659,4 @@ button {
     .stats-grid {
         grid-template-columns: 1fr;
     }
-
 }
